@@ -2,7 +2,10 @@ package com.properties.propertiesapp.controller;
 
 import com.properties.propertiesapp.entity.Properties;
 import com.properties.propertiesapp.entity.Receipts;
+import com.properties.propertiesapp.helper_class.DbInformation;
 import com.properties.propertiesapp.helper_class.DbResults;
+import com.properties.propertiesapp.helper_class.NotificationDetails;
+import com.properties.propertiesapp.service_class.Impl.NotificationServiceImpl;
 import com.properties.propertiesapp.service_class.Impl.PropertiesServiceImpl;
 import com.properties.propertiesapp.service_class.Impl.ReceiptsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class WebController {
     @Autowired
     private ReceiptsServiceImpl receiptsServiceImpl;
 
+    @Autowired
+    private NotificationServiceImpl notificationServiceImpl;
+
     @RequestMapping(value ="/")
     public ModelAndView getDashboard(){
 
@@ -29,6 +35,12 @@ public class WebController {
         List<String> propertyNameList = new ArrayList<>();
         List<Properties> propertyList = dbResults.getResults();
         List<Receipts> receiptsList = receiptsServiceImpl.getAllReceipts();
+        DbInformation getNoticies = notificationServiceImpl.getNotices();
+
+        List<NotificationDetails> noticeList = getNoticies.getNoticeBoard().getNotices();
+        List<NotificationDetails> rentPaidList = getNoticies.getNoticeBoard().getRentPaid();
+        List<NotificationDetails> overDueList = getNoticies.getNoticeBoard().getOverdueRent();
+
 
         for (int i = 0; i < propertyList.size(); i++){
 
@@ -41,6 +53,9 @@ public class WebController {
         modelAndView.addObject("propertyList", propertyList);
         modelAndView.addObject("propertyNameList", propertyNameList);
         modelAndView.addObject("receiptsList", receiptsList);
+        modelAndView.addObject("noticeList", noticeList);
+        modelAndView.addObject("rentPaidList", rentPaidList);
+        modelAndView.addObject("overDueList", overDueList);
 
         return modelAndView;
     }

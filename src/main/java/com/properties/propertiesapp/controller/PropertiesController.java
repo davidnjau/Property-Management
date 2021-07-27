@@ -3,6 +3,7 @@ package com.properties.propertiesapp.controller;
 import com.properties.propertiesapp.entity.Properties;
 import com.properties.propertiesapp.entity.Receipts;
 import com.properties.propertiesapp.helper_class.*;
+import com.properties.propertiesapp.service_class.Impl.NotificationServiceImpl;
 import com.properties.propertiesapp.service_class.Impl.PropertiesServiceImpl;
 import com.properties.propertiesapp.service_class.Impl.ReceiptsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class PropertiesController {
 
     @Autowired
     private ReceiptsServiceImpl receiptsServiceImpl;
+
+    @Autowired
+    private NotificationServiceImpl notificationServiceImpl;
 
     @RequestMapping(value = "/api/v1/properties/add_property", method = RequestMethod.POST)
     public ResponseEntity addProperty(@RequestBody Properties properties){
@@ -134,5 +138,17 @@ public class PropertiesController {
         }
     }
 
+    @RequestMapping(value = "/api/v1/notifications/get_notifications/", method = RequestMethod.GET)
+    public ResponseEntity getNotifications(){
+
+        DbInformation getNoticies = notificationServiceImpl.getNotices();
+        if (getNoticies != null){
+
+            return new ResponseEntity(getNoticies, HttpStatus.OK);
+
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("Please try again."));
+        }
+    }
 
 }

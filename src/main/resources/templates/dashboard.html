@@ -429,7 +429,7 @@
                               href="#profile"
                               data-toggle="tab"
                       >
-                        <i class="material-icons"></i> Upcoming Rent
+                        <i class="material-icons"></i> Notices
                         <div class="ripple-container"></div>
                       </a>
                     </li>
@@ -462,34 +462,46 @@
                 <div class="tab-pane active" id="profile">
                   <table class="table">
                     <tbody>
+                    <tr th:each="notices : ${noticeList}">
 
-
-                    <tr>
                       <td class="text-center notification ">
                         <i class="fa fa-exclamation-circle"></i>
                       </td>
-                      <td>
-                        <span class="badge badge-primary ">Pending</span> Property <a href="#">Deep State</a>
-                        has two overdue rents and an upcoming one for the 2nd December.
+                      <td class="text-center notification"  th:text="${notices.getMessage()}">Name</td>
+
+                      <td th:text="${notices.getTime()}">
+
                       </td>
-                      <td>
-                        2014/08/08 12:08
-                      </td>
+
                     </tr>
 
 
-                    <tr>
-                      <td class="text-center notification ">
-                        <i class="fa fa-comment "></i>
-                      </td>
-                      <td>
-                        <span class="badge badge-warning ">Notification</span> Property <a href="# ">NIS</a>
-                        rent of Kshs. 6M is due on 1st June.
-                      </td>
-                      <td>
-                        2014/08/08 12:08
-                      </td>
-                    </tr>
+<!--                    <tr>-->
+<!--                      <td class="text-center notification ">-->
+<!--                        <i class="fa fa-exclamation-circle"></i>-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <span class="badge badge-primary ">Pending</span> Property <a href="#">Deep State</a>-->
+<!--                        has two overdue rents and an upcoming one for the 2nd December.-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        2014/08/08 12:08-->
+<!--                      </td>-->
+<!--                    </tr>-->
+
+
+<!--                    <tr>-->
+<!--                      <td class="text-center notification ">-->
+<!--                        <i class="fa fa-comment "></i>-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <span class="badge badge-warning ">Notification</span> Property <a href="# ">NIS</a>-->
+<!--                        rent of Kshs. 6M is due on 1st June.-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        2014/08/08 12:08-->
+<!--                      </td>-->
+<!--                    </tr>-->
 
 
                     </tbody>
@@ -500,44 +512,57 @@
                   <table class="table">
                     <tbody>
 
-                    <tr>
-                      <td class="text-center notification">
+                    <tr th:each="rentPaid : ${rentPaidList}">
+
+                      <td class="text-center notification ">
                         <i class="fa fa-exclamation-circle"></i>
                       </td>
-                      <td>
-                        <span class="badge badge-warning ">Notification</span> Receipts for properties
-                        <a href="#">KANJATA</a> , <a href="#">Survey</a> and <a href="#">Ardhi</a>
-                        has been sent to your email address.
+                      <td class="text-center notification"  th:text="${rentPaid.getMessage()}">Name</td>
+
+                      <td th:text="${rentPaid.getTime()}">
+
                       </td>
-                      <td>
-                        2014/08/08 12:08
-                      </td>
+
                     </tr>
 
-                    <tr>
-                      <td class="text-center notification ">
-                        <i class="fa fa-comment"></i>
-                      </td>
-                      <td>
-                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">KANJATA
-                      </a> has been paid under receipt referenced <a href="#">INV-56789</a> with a increment rate of
-                        <span class="badge badge-success "> 90%</span> p.a.
-                      </td>
-                      <td>
-                        2014/08/08 12:08
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-center notification ">
-                        <i class="fa fa-comment"></i>
-                      </td>
-                      <td>
-                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">Survey
-                      </a> has been paid under receipt referenced <a href="#">INV-123456</a>.</td>
-                      <td>
-                        2014/08/08 12:08
-                      </td>
-                    </tr>
+<!--                    <tr>-->
+<!--                      <td class="text-center notification">-->
+<!--                        <i class="fa fa-exclamation-circle"></i>-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <span class="badge badge-warning ">Notification</span> Receipts for properties-->
+<!--                        <a href="#">KANJATA</a> , <a href="#">Survey</a> and <a href="#">Ardhi</a>-->
+<!--                        has been sent to your email address.-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        2014/08/08 12:08-->
+<!--                      </td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                      <td class="text-center notification ">-->
+<!--                        <i class="fa fa-comment"></i>-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">KANJATA-->
+<!--                      </a> has been paid under receipt referenced <a href="#">INV-56789</a> with a increment rate of-->
+<!--                        <span class="badge badge-success "> 90%</span> p.a.-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        2014/08/08 12:08-->
+<!--                      </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                      <td class="text-center notification ">-->
+<!--                        <i class="fa fa-comment"></i>-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">Survey-->
+<!--                      </a> has been paid under receipt referenced <a href="#">INV-123456</a>.</td>-->
+<!--                      <td>-->
+<!--                        2014/08/08 12:08-->
+<!--                      </td>-->
+<!--                    </tr>-->
 
 
                     </tbody>
@@ -547,17 +572,31 @@
                 <div class="tab-pane" id="settings">
                   <table class="table">
                     <tbody>
-                    <tr>
-                      <td class="text-center notification">
-                        <i class="fa fa-comment"></i>
+
+                    <tr th:each="overDue : ${overDueList}">
+
+                      <td class="text-center notification ">
+                        <i class="fa fa-exclamation-circle"></i>
                       </td>
-                      <td>
-                        <span class="badge badge-danger">Overdue</span> Property Ardhi has an  overdue rent of Kshs. 1M
+                      <td class="text-center notification"  th:text="${overDue.getMessage()}">Name</td>
+
+                      <td th:text="${overDue.getTime()}">
+
                       </td>
-                      <td>
-                        2014/08/08 12:08
-                      </td>
+
                     </tr>
+
+<!--                    <tr>-->
+<!--                      <td class="text-center notification">-->
+<!--                        <i class="fa fa-comment"></i>-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <span class="badge badge-danger">Overdue</span> Property Ardhi has an  overdue rent of Kshs. 1M-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        2014/08/08 12:08-->
+<!--                      </td>-->
+<!--                    </tr>-->
 
 
                     </tbody>
@@ -716,7 +755,6 @@
     $("#exampleModalCenter").on("hidden.bs.modal", function(){
       $(".modal-body").html("");
       location.reload();
-    console.log("done")
   }); }
 
   function submitData() {

@@ -5,7 +5,7 @@ import com.properties.propertiesapp.helper_class.DbInformation;
 public interface NotificationService {
 
 
-    DbInformation dbInformation ();
+    DbInformation getNotices ();
 
 
 }
