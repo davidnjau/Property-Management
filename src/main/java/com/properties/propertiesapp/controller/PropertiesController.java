@@ -121,7 +121,18 @@ public class PropertiesController {
         }
     }
 
+    @RequestMapping(value = "/api/v1/receipts/get_monthly_comparison/", method = RequestMethod.GET)
+    public ResponseEntity getMonthlyComparison(){
 
+        DbRentPaid getProperties = receiptsServiceImpl.getRentComparison();
+        if (getProperties != null){
+
+            return new ResponseEntity(getProperties, HttpStatus.OK);
+
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("Please try again."));
+        }
+    }
 
 
 }

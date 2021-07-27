@@ -172,45 +172,47 @@ public class ReceiptsServiceImpl implements ReceiptsService {
             Double rentPaid = receiptsList.get(i).getAmountPaid();
             Double rentAmount = receiptsList.get(i).getRentAmount();
 
+
             if (rentPaid < rentAmount){
                 Date datePaid = receiptsList.get(i).getDatePaid();
+                Double deficitAmount = rentAmount - rentPaid;
 
                 String monthName = getMonthName(datePaid);
                 if (monthName.equals("Jan")){
-                    janRent = janRent + rentPaid;
+                    janRent = janRent + deficitAmount;
                 }
                 else if (monthName.equals("Feb")){
-                    febRent = febRent + rentPaid;
+                    febRent = febRent + deficitAmount;
                 }
                 else if (monthName.equals("Mar")){
-                    marRent = marRent + rentPaid;
+                    marRent = marRent + deficitAmount;
                 }
                 else if (monthName.equals("Apr")){
-                    aprRent = aprRent + rentPaid;
+                    aprRent = aprRent + deficitAmount;
                 }
                 else if (monthName.equals("May")){
-                    mayRent = mayRent + rentPaid;
+                    mayRent = mayRent + deficitAmount;
                 }
                 else if (monthName.equals("Jun")){
-                    junRent = junRent + rentPaid;
+                    junRent = junRent + deficitAmount;
                 }
                 else if (monthName.equals("Jul")){
-                    julyRent = julyRent + rentPaid;
+                    julyRent = julyRent + deficitAmount;
                 }
                 else if (monthName.equals("Aug")){
-                    augRent = augRent + rentPaid;
+                    augRent = augRent + deficitAmount;
                 }
                 else if (monthName.equals("Sep")){
-                    septRent = septRent + rentPaid;
+                    septRent = septRent + deficitAmount;
                 }
                 else if (monthName.equals("Oct")){
-                    octRent = octRent + rentPaid;
+                    octRent = octRent + deficitAmount;
                 }
                 else if (monthName.equals("Nov")){
-                    novRent = novRent + rentPaid;
+                    novRent = novRent + deficitAmount;
                 }
                 else if (monthName.equals("Dec")){
-                    decRent = decRent + rentPaid;
+                    decRent = decRent + deficitAmount;
                 }
 
 
@@ -225,6 +227,15 @@ public class ReceiptsServiceImpl implements ReceiptsService {
 
     }
 
+    public DbRentPaid getRentComparison(){
+
+        List<Double> rentPaidList = getMonthlyRent();
+        List<Double> deficitsList = getRentDeficits();
+
+        DbRentPaid dbRentPaid = new DbRentPaid(rentPaidList, deficitsList);
+        return dbRentPaid;
+
+    }
 
 
     private String getMonthName(Date datePaid){

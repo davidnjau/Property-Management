@@ -224,7 +224,8 @@ demo = {
         $.ajax({
 
             type: 'GET',
-            url: "http://192.168.81.34:8084/api/v1/receipts/get_monthly_payments/",
+            url: "http://localhost:8084/api/v1/receipts/get_monthly_payments/",
+            // url: "http://192.168.81.34:8084/api/v1/receipts/get_monthly_payments/",
             success: function(response) {
 
                 for (var i = 0; i < response.length; i++){
@@ -350,24 +351,6 @@ demo = {
         gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
         gradientFill.addColorStop(1, hexToRGB('#18ce0f', 0.4));
 
-
-
-        var dataFirst = {
-            data: [0, 190, 150, 200, 300, 400, 400, 500, 250, 300, 500, 700],
-            fill: false,
-            label: "Rent Paid",
-            borderColor: "#18ce0f",
-            pointBorderColor: "#FFF",
-            pointBackgroundColor: "#18ce0f",
-            pointBorderWidth: 2,
-            pointHoverRadius: 7,
-            pointHoverBorderWidth: 1,
-            pointRadius: 4,
-            fill: true,
-            backgroundColor: gradientFill,
-            borderWidth: 2,
-        };
-
         gradientStroke = ctx1.createLinearGradient(500, 0, 100, 0);
         gradientStroke.addColorStop(0, '#80b6f4');
         gradientStroke.addColorStop(1, chartColor);
@@ -376,39 +359,95 @@ demo = {
         gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
         gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
-        var dataSecond = {
-            data: [0, 50, 100, 120, 200, 207, 300, 304, 420, 450, 505, 63],
-            fill: false,
-            label: "Rent Overdue",
-            borderColor: "#f96332",
-            pointBorderColor: "#FFF",
-            pointBackgroundColor: "#f96332",
-            pointBorderWidth: 2,
-            pointHoverRadius: 7,
-            pointHoverBorderWidth: 1,
-            pointRadius: 4,
-            fill: true,
-            backgroundColor: gradientFill,
-            borderWidth: 2,
-        };
+        var rentPaidList = []
+        var rentArrearList = []
 
-        var speedData = {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-            datasets: [dataFirst, dataSecond]
-        };
+        $.ajax({
 
-        var chartOptions = {
-            legend: {
-                display: true,
-                position: 'bottom'
+            type: 'GET',
+            url: "http://localhost:8084/api/v1/receipts/get_monthly_comparison/",
+            // url: "http://192.168.81.34:8084/api/v1/receipts/get_monthly_payments/",
+            success: function(response) {
+
+                var rentList = response.rentPaid;
+                var arrearList = response.rentArrear;
+
+                for (var j = 0; j < arrearList.length; j++){
+
+                    var rentArrear = arrearList[j];
+                    rentArrearList.push(rentArrear)
+                }
+
+                for (var i = 0; i < rentList.length; i++){
+
+                    var rentPaid = rentList[i];
+                    rentPaidList.push(rentPaid)
+                }
+
+                var dataFirst = {
+                    data: rentPaidList,
+                    fill: false,
+                    label: "Rent Paid",
+                    borderColor: "#18ce0f",
+                    pointBorderColor: "#FFF",
+                    pointBackgroundColor: "#18ce0f",
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 7,
+                    pointHoverBorderWidth: 1,
+                    pointRadius: 4,
+                    fill: true,
+                    backgroundColor: gradientFill,
+                    borderWidth: 2,
+                };
+
+                console.log("----paid", rentList)
+                console.log("++++arrear", rentArrearList)
+
+                var dataSecond = {
+                    data: rentArrearList,
+                    fill: false,
+                    label: "Rent Arrear",
+                    borderColor: "#f96332",
+                    pointBorderColor: "#FFF",
+                    pointBackgroundColor: "#f96332",
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 7,
+                    pointHoverBorderWidth: 1,
+                    pointRadius: 4,
+                    fill: true,
+                    backgroundColor: gradientFill,
+                    borderWidth: 2,
+                };
+
+                var speedData = {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+                    datasets: [dataFirst, dataSecond]
+                };
+
+                var chartOptions = {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                };
+                myChart = new Chart(ctx1, {
+                    type: 'line',
+                    responsive: true,
+                    data: speedData,
+                    options: chartOptions
+                });
+
+
+
+
+            }, error: function (error) {
+                alert('error: ' + error);
             }
-        };
-        myChart = new Chart(ctx1, {
-            type: 'line',
-            responsive: true,
-            data: speedData,
-            options: chartOptions
-        });
+
+        })
+
+
+
 
         //Bar Graph
         var e = document.getElementById("barChartSimpleGradientsNumbers").getContext("2d");
@@ -423,7 +462,8 @@ demo = {
         $.ajax({
 
             type: 'GET',
-            url: "http://192.168.81.34:8084/api/v1/properties/get_property/",
+            url: "http://localhost:8084/api/v1/properties/get_property/",
+            // url: "http://192.168.81.34:8084/api/v1/properties/get_property/",
             success: function(response) {
 
                 for (var i = 0; i < response.results.length; i++){

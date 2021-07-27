@@ -41,4 +41,24 @@ data class Results(
 )
 data class DbRentPaid(
     val rentPaid : List<Double>,
+    val rentArrear : List<Double>,
+)
+
+data class DbInformation(
+    val noticesCount: Int,
+    val rentPaidCount: Int,
+    val overdueRentCount: Int,
+    val noticeBoard: DbNotifications
+)
+
+data class DbNotifications(
+    val notices: List<NotificationDetails>,
+    val rentPaid: List<NotificationDetails>,
+    val overdueRent: List<NotificationDetails>
+)
+data class NotificationDetails(
+    val notification_type: String,
+    val message : String,
+    val time: String
+
 )

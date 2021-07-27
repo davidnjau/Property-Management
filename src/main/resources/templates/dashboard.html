@@ -376,7 +376,7 @@
           <div class="card card-chart">
             <div class="card-header">
               <h5 class="card-category">Rent Payment</h5>
-              <h4 class="card-title">Rent Paid / Overdue </h4>
+              <h4 class="card-title">Rent Paid / Rent Arrears </h4>
 <!--              <div class="dropdown">-->
 <!--                <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">-->
 <!--                  <i class="now-ui-icons loader_gear"></i>-->
@@ -572,7 +572,7 @@
           <div class="card">
             <div class="card-header card-header-warning">
               <h4 class="card-title">Property Stats</h4>
-              <p class="card-category">You have 5 properties</p>
+              <p class="card-category" th:text="${propertyList.size()}"> You have 5 properties</p>
             </div>
             <div class="card-body table-responsive">
               <table class="table table-hover">
@@ -622,7 +622,8 @@
     $.ajax({
 
       type: 'GET',
-      url: "http://192.168.81.34:8084/api/v1/properties/get_property/" + id,
+      // url: "http://192.168.81.34:8084/api/v1/properties/get_property/" + id,
+      url: "http://localhost:8084/api/v1/properties/get_property/" + id,
       success: function(response) {
 
         var html="";
@@ -690,7 +691,7 @@
       <form>
         <div class="modal-header">
           <h4 class="modal-title">Property Details</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<!--          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
         </div>
 
         <div class="modal-body">
@@ -753,7 +754,8 @@
     // post data
     $.ajax({
       type: 'POST',
-      url: 'http://192.168.81.34:8084/api/v1/properties/add_property',
+      // url: 'http://192.168.81.34:8084/api/v1/properties/add_property',
+      url: 'http://localhost:8084/api/v1/properties/add_property',
       data: postData, // or JSON.stringify ({name: 'jonas'}),
       success: function(result) {
         alert('success: ' + "");
@@ -792,7 +794,8 @@
     // post data
     $.ajax({
       type: 'POST',
-      url: 'http://192.168.81.34:8084/api/v1/receipts/add_receipts',
+      url: 'http://localhost:8084/api/v1/receipts/add_receipts',
+      // url: 'http://192.168.81.34:8084/api/v1/receipts/add_receipts',
       data: postData, // or JSON.stringify ({name: 'jonas'}),
       success: function(result) {
         alert('success: ' + "");
