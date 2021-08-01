@@ -224,8 +224,8 @@ demo = {
         $.ajax({
 
             type: 'GET',
-            url: "http://localhost:8084/api/v1/receipts/get_monthly_payments/",
-            // url: "http://192.168.81.34:8084/api/v1/receipts/get_monthly_payments/",
+            url: "/api/v1/receipts/get_monthly_payments/",
+            // url: "http://192.168.84.165:8084/api/v1/receipts/get_monthly_payments/",
             success: function(response) {
 
                 for (var i = 0; i < response.length; i++){
@@ -365,8 +365,8 @@ demo = {
         $.ajax({
 
             type: 'GET',
-            url: "http://localhost:8084/api/v1/receipts/get_monthly_comparison/",
-            // url: "http://192.168.81.34:8084/api/v1/receipts/get_monthly_payments/",
+            url: "/api/v1/receipts/get_monthly_comparison/",
+            // url: "http://192.168.84.165:8084/api/v1/receipts/get_monthly_payments/",
             success: function(response) {
 
                 var rentList = response.rentPaid;
@@ -462,8 +462,8 @@ demo = {
         $.ajax({
 
             type: 'GET',
-            url: "http://localhost:8084/api/v1/properties/get_property/",
-            // url: "http://192.168.81.34:8084/api/v1/properties/get_property/",
+            url: "/api/v1/properties/get_property/",
+            // url: "http://192.168.84.165:8084/api/v1/properties/get_property/",
             success: function(response) {
 
                 for (var i = 0; i < response.results.length; i++){
