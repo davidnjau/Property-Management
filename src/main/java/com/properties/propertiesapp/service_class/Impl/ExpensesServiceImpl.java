@@ -52,7 +52,7 @@ public class ExpensesServiceImpl implements ExpensesService {
     public Expenses saveExpense(DbExpenses dbExpenses, String expenseType){
 
         String propertyName = dbExpenses.getPropertyName();
-        String expenseAmount = dbExpenses.getExpenseAmount();
+        Double expenseAmount = dbExpenses.getExpenseAmount();
         String expenseName = dbExpenses.getExpenseName();
         Date expenseDate = dbExpenses.getExpenseDate();
 

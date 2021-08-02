@@ -1,7 +1,9 @@
 package com.properties.propertiesapp.service_class.Impl;
 
 import com.properties.propertiesapp.entity.Properties;
+import com.properties.propertiesapp.helper_class.DbPropetiesData;
 import com.properties.propertiesapp.helper_class.DbResults;
+import com.properties.propertiesapp.helper_class.DbResults1;
 import com.properties.propertiesapp.helper_class.Results;
 import com.properties.propertiesapp.repository.PropertiesRepository;
 import com.properties.propertiesapp.service_class.service.PropertiesService;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,17 +69,56 @@ public class PropertiesServiceImpl implements PropertiesService {
     /**
      * MODEL FUNCTIONALITY
      */
-    public DbResults getAllPropertyData(){
+    public DbResults1 getAllPropertyData(){
 
         try{
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
 
-            List<Properties> propertiesList = getAllProperty();
+            List<DbPropetiesData> dbPropetiesDataList = new ArrayList<>();
+            List<Properties> propertyList = getAllProperty();
 
-            return new DbResults(
-                    propertiesList.size(),
+            for (int i = 0; i < propertyList.size(); i++){
+
+                String id = propertyList.get(i).getId();
+                String propertyOccupancyDate = sdf.format(propertyList.get(i).getPropertyOccupancyDate());
+
+                boolean isVat = propertyList.get(i).isVat();
+                String propertyVatStatus = "";
+                if (isVat){
+                    propertyVatStatus = "The property has a 16 % VAT.";
+                }else {
+                    propertyVatStatus = "The property does not have any VAT.";
+                }
+                String propertyName = propertyList.get(i).getPropertyName();
+                String propertyLocation = propertyList.get(i).getPropertyLocation();
+                String propertyDetails = propertyList.get(i).getPropertyDetails();
+                String propertyLandlordDetails = propertyList.get(i).getPropertyLandlordDetails();
+                String paymentSchedule = propertyList.get(i).getPaymentSchedule();
+                String propertyTenancyPeriod = propertyList.get(i).getPropertyTenancyPeriod() + " year(s)";
+                Double propertyRentAmount = propertyList.get(i).getPropertyRentAmount();
+                String rentAmount = propertyList.get(i).getPropertyRentAmount() + " Kshs";
+                Double incrementalPerc = propertyList.get(i).getIncrementalPerc();
+                String incrementalData = "";
+                if (incrementalPerc > 0){
+                    incrementalData = "The property has an incremental percentage of " + incrementalPerc + " %. p.a.";
+                }else {
+                    incrementalData = "The property does not have an incremental percentage";
+                }
+                String propertyDepositAmount = propertyList.get(i).getPropertyDepositAmount() + " Kshs";
+
+                DbPropetiesData dbPropetiesData = new DbPropetiesData(
+                        id, propertyOccupancyDate, propertyVatStatus, propertyName, propertyLocation, propertyDetails,
+                        propertyLandlordDetails, paymentSchedule, propertyTenancyPeriod, rentAmount,propertyRentAmount,
+                        incrementalData, propertyDepositAmount);
+                dbPropetiesDataList.add(dbPropetiesData);
+
+            }
+
+            return new DbResults1(
+                    dbPropetiesDataList.size(),
                     null,
                     null,
-                    propertiesList
+                    dbPropetiesDataList
             );
 
         }catch (Exception e){
@@ -84,12 +127,43 @@ public class PropertiesServiceImpl implements PropertiesService {
 
     }
 
-    public Properties getAllPropertyDetails(String propertyId){
+    public DbPropetiesData getAllPropertyDetails(String propertyId){
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
 
         Properties properties = getPropertyById(propertyId);
         if (properties != null){
 
-            return properties;
+            String id = properties.getId();
+            String propertyOccupancyDate = sdf.format(properties.getPropertyOccupancyDate());
+
+            boolean isVat = properties.isVat();
+            String propertyVatStatus = "";
+            if (isVat){
+                propertyVatStatus = "The property has a 16 % VAT.";
+            }else {
+                propertyVatStatus = "The property does not have any VAT.";
+            }
+            String propertyName = properties.getPropertyName();
+            String propertyLocation = properties.getPropertyLocation();
+            String propertyDetails = properties.getPropertyDetails();
+            String propertyLandlordDetails = properties.getPropertyLandlordDetails();
+            String paymentSchedule = properties.getPaymentSchedule();
+            String propertyTenancyPeriod = properties.getPropertyTenancyPeriod() + " year(s)";
+            Double propertyRentAmount = properties.getPropertyRentAmount();
+            String rentAmount = properties.getPropertyRentAmount() + " Kshs";
+            Double incrementalPerc = properties.getIncrementalPerc();
+            String incrementalData = "";
+            if (incrementalPerc > 0){
+                incrementalData = "The property has an incremental percentage of " + incrementalPerc + " %. p.a.";
+            }else {
+                incrementalData = "The property does not have an incremental percentage";
+            }
+            String propertyDepositAmount = properties.getPropertyDepositAmount() + " Kshs";
+
+            return new DbPropetiesData(
+                    id, propertyOccupancyDate, propertyVatStatus, propertyName, propertyLocation, propertyDetails,
+                    propertyLandlordDetails, paymentSchedule, propertyTenancyPeriod, rentAmount,propertyRentAmount,
+                    incrementalData, propertyDepositAmount);
 
         }else {
 

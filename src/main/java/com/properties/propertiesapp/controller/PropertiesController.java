@@ -57,7 +57,7 @@ public class PropertiesController {
     @RequestMapping(value = "/api/v1/properties/get_property/", method = RequestMethod.GET)
     public ResponseEntity getProperty(){
 
-        DbResults getProperties = propertiesServiceImpl.getAllPropertyData();
+        DbResults1 getProperties = propertiesServiceImpl.getAllPropertyData();
         if (getProperties != null){
 
             return new ResponseEntity(getProperties, HttpStatus.OK);
@@ -70,7 +70,7 @@ public class PropertiesController {
     @RequestMapping(value = "/api/v1/properties/get_property/{property_id}", method = RequestMethod.GET)
     public ResponseEntity getPropertyDetails(@PathVariable("property_id") String property_id){
 
-        Properties getProperties = propertiesServiceImpl.getAllPropertyDetails(property_id);
+        DbPropetiesData getProperties = propertiesServiceImpl.getAllPropertyDetails(property_id);
         if (getProperties != null){
 
             return new ResponseEntity(getProperties, HttpStatus.OK);
@@ -99,6 +99,19 @@ public class PropertiesController {
         if (getProperties != null){
 
             return new ResponseEntity(getProperties, HttpStatus.OK);
+
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("Please try again."));
+        }
+    }
+
+    @RequestMapping(value = "/api/v1/receipts/get_receipts/{receipt_id}", method = RequestMethod.GET)
+    public ResponseEntity getPayementReceiptsDetails(@PathVariable("receipt_id") String receipt_id){
+
+        DbReceiptsData receiptDetails = receiptsServiceImpl.getReceiptDataDetails(receipt_id);
+        if (receiptDetails != null){
+
+            return new ResponseEntity(receiptDetails, HttpStatus.OK);
 
         }else {
             return ResponseEntity.badRequest().body(new ErrorMessage("Please try again."));
@@ -171,9 +184,9 @@ public class PropertiesController {
     @RequestMapping(value = "/api/v1/expenses/add-extra-expenses", method = RequestMethod.POST)
     public ResponseEntity addExtraExpenses(@RequestBody DbExpenses dbExpenses){
 
-        String utilities = Expense.EXTRA.name();
+        String extra = Expense.EXTRA.name();
 
-        Expenses expenses = expensesServiceIml.saveExpense(dbExpenses, utilities);
+        Expenses expenses = expensesServiceIml.saveExpense(dbExpenses, extra);
         if (expenses != null){
             return new ResponseEntity(expenses, HttpStatus.OK);
         }else {
@@ -217,6 +230,8 @@ public class PropertiesController {
             return ResponseEntity.badRequest().body(new ErrorMessage("There is no property associated with that id"));
         }
     }
+
+
 
 
 }

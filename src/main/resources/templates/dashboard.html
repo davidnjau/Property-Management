@@ -15,10 +15,12 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard.min.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_dots.min.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script>
-  <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<!--  <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- CSS Files -->
@@ -193,7 +195,7 @@
             <div class="form-group">
               <div>
                 <button type="submit" class="btn btn-success" onclick="submitUtilityExpense()" >
-                  Save Utility Expense Info
+                  Save
                 </button>
               </div>
               <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
@@ -329,7 +331,7 @@
 
             <td th:text="${receipts.getReceiptReference()}">Receipt no</td>
             <td th:text="${receipts.getDatePaid()}">DatePaid</td>
-            <td th:text="${receipts.getAmountPaid()}">Amount</td>
+            <td th:text="${receipts.getRentAmount()}">Amount</td>
 
 
           </tr>
@@ -802,7 +804,7 @@
 
 <!--                  <td th:text="${property.propertyName()}">User</td>-->
                   <td th:text="${property.getPropertyName()}">Name</td>
-                  <td th:text="${property.getPropertyRentAmount()}">Rent</td>
+                  <td th:text="${property.getPropertyRent()}">Rent</td>
                   <td th:text="${property.getPropertyLocation()}">Location</td>
 
                   <td>
@@ -821,6 +823,84 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Payment Receipts</h4>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                <th>ID</th>
+                <th>Receipt No</th>
+                <th>Amount Paid (Kshs) </th>
+                <th>Date Paid</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="receipts : ${receiptsList}">
+                  <td>1</td>
+
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <td th:text="${receipts.getReceiptReference()}">Name</td>
+                  <td th:text="${receipts.getRentAmount()}">Rent</td>
+                  <td th:text="${receipts.getDatePaid()}">Location</td>
+
+                  <td>
+                    <button type="submit" class="btn btn-primary"
+                            data-toggle="modal"
+                            th:attr="onclick=|viewPaymentReceipts('${receipts.getId()}')|"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Expenses</h4>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                <th>ID</th>
+                <th>Expense Name</th>
+                <th>Expense Amount </th>
+                <th>Property Name</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="expenses : ${expensesList}">
+                  <td>1</td>
+
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <td th:text="${expenses.getExpenseName()}">Name</td>
+                  <td th:text="${expenses.getExpenseAmount()}">Rent</td>
+                  <td th:text="${expenses.getPropertyName()}">Location</td>
+
+                  <td>
+                    <button type="submit" class="btn btn-primary"
+                            data-toggle="modal"
+                            th:attr="onclick=|viewModel('${expenses.getId()}')|"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
 
@@ -835,7 +915,6 @@
     $.ajax({
 
       type: 'GET',
-      // url: "http://192.168.84.165:8084/api/v1/properties/get_property/" + id,
       url: "/api/v1/properties/get_property/" + id,
       success: function(response) {
 
@@ -860,7 +939,7 @@
 
         html += '<tr>';
         html += '<td>'+"Property Rent Amount"+'</td>';
-        html += '<td>'+response.propertyRentAmount+'</td>';
+        html += '<td>'+response.propertyRent+'</td>';
         html += '</tr>';
 
         html += '<tr>';
@@ -869,8 +948,23 @@
         html += '</tr>';
 
         html += '<tr>';
+        html += '<td>'+"VAT"+'</td>';
+        html += '<td>'+response.propertyVatStatus+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Tenancy Period"+'</td>';
+        html += '<td>'+response.propertyTenancyPeriod+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
         html += '<td>'+"Property Land Lord Details"+'</td>';
         html += '<td>'+response.propertyLandlordDetails+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Incremental %"+'</td>';
+        html += '<td>'+response.incrementalPerc+'</td>';
         html += '</tr>';
 
         html += '<tr>';
@@ -895,6 +989,62 @@
     })
 
   }
+
+  function viewPaymentReceipts(id){
+
+    $.ajax({
+
+      type: 'GET',
+      url: "/api/v1/receipts/get_receipts/" + id,
+      success: function(response) {
+
+        var html="";
+        html += '<table class="table" >';
+
+
+        html += '<tr>';
+        html += '<td>'+"id"+'</td>';
+        html += '<td>'+response.id+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Property Name"+'</td>';
+        html += '<td>'+response.propertyName+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Receipt No."+'</td>';
+        html += '<td>'+response.receiptReference+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Receipt Amount"+'</td>';
+        html += '<td>'+response.rentAmount+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Receipt Date"+'</td>';
+        html += '<td>'+response.datePaid+'</td>';
+        html += '</tr>';
+
+        html += '</table>';
+
+        $('.modal-content .modal-body').append(html)
+
+        // $('.modal-body').html(response);
+
+        // Display Modal
+        $('#exampleModalCenter').modal('show');
+
+
+      }, error: function (error) {
+        alert('error: ' + error);
+      }
+
+    })
+
+  }
+
 
 </script>
 
@@ -925,11 +1075,11 @@
 
 
 <script>
-  // function dis() {
-  //   $("#exampleModalCenter").on("hidden.bs.modal", function(){
-  //     $(".modal-body").html("");
-  //     location.reload();
-  // }); }
+  function dis() {
+    $("#exampleModalCenter").on("hidden.bs.modal", function(){
+      $(".modal-body").html("");
+      location.reload();
+  }); }
 
   function submitData() {
     var propertyName = document.getElementById("propertyName").value;
@@ -1019,6 +1169,7 @@
     });
 
   }
+
   function submitUtilityExpense() {
     var utilityExpenseName = document.getElementById("utilityExpenseName").value;
     var utilityDepositAmount = document.getElementById("utilityDepositAmount").value;
@@ -1034,27 +1185,26 @@
     };
 
     var postData = JSON.stringify(dataJson);
-    //
-    console.log(postData)
 
     // post data
     $.ajax({
+
+
       type: 'POST',
-      url: '/api/v1/expense/add-utility-expenses',
+      url: '/api/v1/expenses/add-utility-expenses',
       data: postData, // or JSON.stringify ({name: 'jonas'}),
       success: function(result) {
-        Swal.fire({
-          title: "<i>Expense Added Successfully.</i>",
-          confirmButtonText: "<u>Done</u>",
-        });
-
+        console.log("success "+result)
+        alert('success: ' + "");
       },
       error:function (error) {
         // alert('error: ' + error);
-        Swal.fire({
-          title: error,
-          confirmButtonText: "<u>Done</u>",
-        });
+        // Swal.fire({
+        //   title: error,
+        //   confirmButtonText: "<u>Done</u>",
+        // });
+        console.log("error "+error)
+        alert('error: ' + "");
 
       },
       contentType: "application/json",
@@ -1079,26 +1229,24 @@
 
     var postData = JSON.stringify(dataJson);
     //
-    console.log(postData)
+    console.log("-*-*-*-*"+postData)
 
     // post data
     $.ajax({
       type: 'POST',
-      url: '/api/v1/expense/add-extra-expenses ',
+      url: '/api/v1/expenses/add-extra-expenses',
       data: postData, // or JSON.stringify ({name: 'jonas'}),
       success: function(result) {
-        Swal.fire({
-          title: "<i>Expense Added Successfully.</i>",
-          confirmButtonText: "<u>Done</u>",
-        });
+        alert('success: ' + "");
+
 
       },
       error:function (error) {
-        // alert('error: ' + error);
-        Swal.fire({
-          title: error,
-          confirmButtonText: "<u>Done</u>",
-        });
+        alert('error: ' + error);
+        // Swal.fire({
+        //   title: error,
+        //   confirmButtonText: "<u>Done</u>",
+        // });
 
       },
       contentType: "application/json",

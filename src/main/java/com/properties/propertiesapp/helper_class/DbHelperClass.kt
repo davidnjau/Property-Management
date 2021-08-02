@@ -11,6 +11,12 @@ data class DbResults(
     val previous: String?,
     val results: List<Properties>
 )
+data class DbResults1(
+    val count: Int,
+    val next : String?,
+    val previous: String?,
+    val results: List<DbPropetiesData>
+)
 data class DbExpensesResults(
     val count: Int,
     val next : String?,
@@ -23,21 +29,20 @@ data class DbPaymentReceipt(
     val previous: String?,
     val results: List<Receipts>
 )
-data class DbPropeties(
-    val propertyId : String,
-    val createdAt : Date,
-    val updatedAt: Date,
-    val propertyOccupancyDate: Date,
-    val isVat : Boolean,
+data class DbPropetiesData(
+    val id : String,
+    val propertyOccupancyDate: String,
+    val propertyVatStatus : String,
     val propertyName: String,
     val propertyLocation: String,
-    val propertyDetails: String?,
+    val propertyDetails: String,
     val propertyLandlordDetails: String,
     val paymentSchedule: String,
-    val propertyTenancyPeriod: Double,
+    val propertyTenancyPeriod: String,
+    val propertyRent: String,
     val propertyRentAmount: Double,
-    val incrementalPerc: Double,
-    val propertyDepositAmount: Double,
+    val incrementalPerc: String,
+    val propertyDepositAmount: String,
 )
 data class ErrorMessage(
     val error : String
@@ -68,4 +73,19 @@ data class NotificationDetails(
     val message : String,
     val time: String
 
+)
+data class DbExpensesData(
+    val id: String,
+    val propertyName: String,
+    val expenseName: String,
+    val expenseAmount: String,
+    val expenseDate: String,
+    val expenseType: String
+)
+data class DbReceiptsData(
+    val id: String,
+    val propertyName: String,
+    val receiptReference: String,
+    val rentAmount: String,
+    val datePaid: String
 )

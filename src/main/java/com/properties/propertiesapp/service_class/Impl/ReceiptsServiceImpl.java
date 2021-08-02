@@ -4,12 +4,14 @@ import com.properties.propertiesapp.entity.Properties;
 import com.properties.propertiesapp.entity.Receipts;
 import com.properties.propertiesapp.helper_class.DbPaymentReceipt;
 import com.properties.propertiesapp.helper_class.DbReceipts;
+import com.properties.propertiesapp.helper_class.DbReceiptsData;
 import com.properties.propertiesapp.helper_class.DbRentPaid;
 import com.properties.propertiesapp.repository.ReceiptsRepository;
 import com.properties.propertiesapp.service_class.service.ReceiptsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -22,6 +24,10 @@ public class ReceiptsServiceImpl implements ReceiptsService {
 
     @Autowired
     private PropertiesServiceImpl propertiesServiceImpl;
+
+    @Autowired
+    private PropertiesServiceImpl propertiesService;
+
 
     @Override
     public Receipts addReceipt(Receipts receipt) {
@@ -51,6 +57,25 @@ public class ReceiptsServiceImpl implements ReceiptsService {
     /**
      * MODELS
      */
+    
+    public DbReceiptsData getReceiptDataDetails(String receipt_id){
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
+
+        Receipts receipts = getReceiptDetails(receipt_id);
+        String id = receipts.getId();
+        String propertyId = receipts.getPropertyId();
+        Properties properties = propertiesService.getPropertyById(propertyId);
+
+        String propertyName = properties.getPropertyName();
+        String amountPaid = receipts.getAmountPaid() + " Kshs";
+        String referenceNo = receipts.getReceiptReference();
+        String datePaid = sdf.format(receipts.getDatePaid());
+
+        return new DbReceiptsData(id, propertyName, referenceNo, amountPaid, datePaid);
+        
+    }
+    
     public Receipts saveReceipt(DbReceipts receipt){
 
         Properties properties = propertiesServiceImpl.findPropertyByName(receipt.getPropertyName());
@@ -238,8 +263,7 @@ public class ReceiptsServiceImpl implements ReceiptsService {
         return dbRentPaid;
 
     }
-
-
+    
     private String getMonthName(Date datePaid){
 
         LocalDate localDate = datePaid.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

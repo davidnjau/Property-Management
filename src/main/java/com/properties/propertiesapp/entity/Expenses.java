@@ -38,7 +38,7 @@ public class Expenses {
 
     private String expenseName;
 
-    private String expenseAmount;
+    private Double expenseAmount;
     
     private Date expenseDate;
 
@@ -47,7 +47,7 @@ public class Expenses {
     public Expenses() {
     }
 
-    public Expenses(String propertyId, String expenseName, String expenseAmount, Date expenseDate, String expenseType) {
+    public Expenses(String propertyId, String expenseName, Double expenseAmount, Date expenseDate, String expenseType) {
         this.propertyId = propertyId;
         this.expenseName = expenseName;
         this.expenseAmount = expenseAmount;
@@ -95,11 +95,11 @@ public class Expenses {
         this.expenseName = expenseName;
     }
 
-    public String getExpenseAmount() {
+    public Double getExpenseAmount() {
         return expenseAmount;
     }
 
-    public void setExpenseAmount(String expenseAmount) {
+    public void setExpenseAmount(Double expenseAmount) {
         this.expenseAmount = expenseAmount;
     }
 

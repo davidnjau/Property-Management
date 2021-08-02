@@ -400,9 +400,6 @@ demo = {
                     borderWidth: 2,
                 };
 
-                console.log("----paid", rentList)
-                console.log("++++arrear", rentArrearList)
-
                 var dataSecond = {
                     data: rentArrearList,
                     fill: false,
@@ -465,6 +462,8 @@ demo = {
             url: "/api/v1/properties/get_property/",
             // url: "http://192.168.84.165:8084/api/v1/properties/get_property/",
             success: function(response) {
+
+                console.log("-*-*-* "+ response)
 
                 for (var i = 0; i < response.results.length; i++){
 

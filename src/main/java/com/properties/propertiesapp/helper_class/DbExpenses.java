@@ -5,14 +5,14 @@ import java.util.Date;
 public class DbExpenses {
 
     private String propertyName;
-    private String expenseAmount;
+    private Double expenseAmount;
     private String expenseName;
     private Date expenseDate;
 
     public DbExpenses() {
     }
 
-    public DbExpenses(String propertyName, String expenseAmount, String expenseName, Date expenseDate) {
+    public DbExpenses(String propertyName, Double expenseAmount, String expenseName, Date expenseDate) {
         this.propertyName = propertyName;
         this.expenseAmount = expenseAmount;
         this.expenseName = expenseName;
@@ -27,11 +27,11 @@ public class DbExpenses {
         this.propertyName = propertyName;
     }
 
-    public String getExpenseAmount() {
+    public Double getExpenseAmount() {
         return expenseAmount;
     }
 
-    public void setExpenseAmount(String expenseAmount) {
+    public void setExpenseAmount(Double expenseAmount) {
         this.expenseAmount = expenseAmount;
     }
 
