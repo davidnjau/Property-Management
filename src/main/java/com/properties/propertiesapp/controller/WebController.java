@@ -42,11 +42,10 @@ public class WebController {
         List<NotificationDetails> overDueList = getNoticies.getNoticeBoard().getOverdueRent();
 
 
-        for (int i = 0; i < propertyList.size(); i++){
+        for (Properties properties : propertyList) {
 
-            String propertyName = propertyList.get(i).getPropertyName();
+            String propertyName = properties.getPropertyName();
             propertyNameList.add(propertyName);
-
         }
 
 

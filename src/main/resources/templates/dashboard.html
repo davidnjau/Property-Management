@@ -19,6 +19,7 @@
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_dots.min.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- CSS Files -->
 
@@ -120,6 +121,94 @@
     </div>
 </div>
 
+<!--Utilities deposit-->
+<div class="modal" id="addUtilitiesExpenses">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add any incurred utilities expenses</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form role="form" method="POST" action="">
+          <input type="hidden" name="_token" value="">
+
+          <div class="row mt-3">
+
+            <div class="dropdown col-md-6">
+              <div>
+
+                <label> Select the property: </label>
+
+              </div>
+            </div>
+
+            <div class="dropdown col-md-6">
+
+
+              <select  id="propertyNames">
+                <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+              </select>
+
+            </div>
+
+
+          </div>
+          <div class="row">
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="form-control text_area_details" type="text" placeholder="Utility Expense Name" id="utilityExpenseName" style="height: 70px">
+              </div>
+            </div>
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="form-control text_area_details" type="number" placeholder="Deposit Amount" id="utilityDepositAmount"  style="height: 70px">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="dropdown col-md-6">
+              <div>
+
+                <label> Select Payment Date: </label>
+
+              </div>
+            </div>
+
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="btn btn-secondary" type="date" placeholder="expenseDate" id="expenseDate"/>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <div class="form-group">
+              <div>
+                <button type="submit" class="btn btn-success" onclick="submitUtilityExpense()" >
+                  Save Utility Expense Info
+                </button>
+              </div>
+              <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
 
 <!-- The Modal -->
 <div class="modal" id="myModal">
@@ -747,11 +836,11 @@
 
 
 <script>
-  function dis() {
-    $("#exampleModalCenter").on("hidden.bs.modal", function(){
-      $(".modal-body").html("");
-      location.reload();
-  }); }
+  // function dis() {
+  //   $("#exampleModalCenter").on("hidden.bs.modal", function(){
+  //     $(".modal-body").html("");
+  //     location.reload();
+  // }); }
 
   function submitData() {
     var propertyName = document.getElementById("propertyName").value;
@@ -834,6 +923,52 @@
       },
       error:function (error) {
         alert('error: ' + error);
+
+      },
+      contentType: "application/json",
+      dataType: 'json'
+    });
+
+  }
+  function submitUtilityExpense() {
+    var utilityExpenseName = document.getElementById("utilityExpenseName").value;
+    var utilityDepositAmount = document.getElementById("utilityDepositAmount").value;
+    var expenseDate = document.getElementById("expenseDate").value;
+    var propertySelectName = $('#propertyNames :selected').text();
+
+   // convert to JSON
+    var dataJson = {
+      "expenseName":utilityExpenseName,
+      "depositAmount":utilityDepositAmount,
+      "datePaid":expenseDate,
+      "propertyName":propertySelectName,
+    };
+
+    var postData = JSON.stringify(dataJson);
+    //
+    console.log(postData)
+
+    // post data
+    $.ajax({
+      type: 'POST',
+      url: '/api/v1/expense/add_utility_expenses',
+      // url: 'http://192.168.84.165:8084/api/v1/receipts/add_receipts',
+      data: postData, // or JSON.stringify ({name: 'jonas'}),
+      success: function(result) {
+        Swal.fire({
+          title: "<i>Expense Added Successfully.</i>",
+          // html: "Testno  sporocilo za objekt: <b>test</b>",
+          confirmButtonText: "<u>Done</u>",
+        });
+
+      },
+      error:function (error) {
+        // alert('error: ' + error);
+        Swal.fire({
+          title: error,
+          // html: "Testno  sporocilo za objekt: <b>test</b>",
+          confirmButtonText: "<u>Done</u>",
+        });
 
       },
       contentType: "application/json",
