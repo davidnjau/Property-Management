@@ -20,11 +20,10 @@
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard.min.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_dots.min.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script>
-<!--  <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>-->
+  <!--  <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <!-- CSS Files -->
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/assets/css/now-ui-dashboard.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/assets/css/dashboard.css}" />
@@ -38,89 +37,89 @@
 
 <!-- The Modal -->
 <div class="modal" id="addPaymentReceipts">
-    <div class="modal-dialog">
-        <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Add Receipt Information</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Receipt Information</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div>
+          <input type="hidden" name="_token" value="">
+
+          <div class="form-group">
+            <div>
+              <input class="form-control text_area_details" type="number" placeholder="Amount Paid" id="paidAmount" style="height: 30px" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <textarea class="form-control" placeholder="Receipt Reference No" id="referenceNo" rows="1" required></textarea>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+
+            <div class="dropdown col-md-6">
+              <div>
+
+                <label> Select the property: </label>
+
+              </div>
             </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form role="form" method="POST" action="">
-                    <input type="hidden" name="_token" value="">
-
-                    <div class="form-group">
-                        <div>
-                          <input class="form-control text_area_details" type="number" placeholder="Amount Paid" id="paidAmount" style="height: 30px" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div>
-                            <textarea class="form-control" placeholder="Receipt Reference No" id="referenceNo" rows="1" required></textarea>
-                        </div>
-                    </div>
-
-                  <div class="row mt-3">
-
-                    <div class="dropdown col-md-6">
-                      <div>
-
-                        <label> Select the property: </label>
-
-                      </div>
-                    </div>
-
-                    <div class="dropdown col-md-6">
+            <div class="dropdown col-md-6">
 
 
-                      <select  id="propertySelectName">
-                        <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
-                      </select>
+              <select  id="propertySelectName">
+                <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+              </select>
 
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="dropdown col-md-6">
-                      <div>
-
-                        <label> Select receipt date: </label>
-
-                      </div>
-                    </div>
-
-                    <div class="dropdown col-md-6">
-                      <div>
-                        <input class="btn btn-secondary" type="date" placeholder="ReceiptDate" id="receiptDate"/>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <div class="form-group">
-                      <div>
-                        <button type="submit" class="btn btn-success" onclick="submitReceiptData()" >
-                          Add Receipt Info
-                        </button>
-                      </div>
-                      <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-
-                    </div>
-                  </div>
-
-                </form>
             </div>
 
 
+          </div>
+          <div class="row">
+            <div class="dropdown col-md-6">
+              <div>
+
+                <label> Select receipt date: </label>
+
+              </div>
+            </div>
+
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="btn btn-secondary" type="date" placeholder="ReceiptDate" id="receiptDate"/>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <div class="form-group">
+              <div>
+                <button type="submit" class="btn btn-success" onclick="submitReceiptData()" >
+                  Add Receipt Info
+                </button>
+              </div>
+              <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+            </div>
+          </div>
 
         </div>
+      </div>
+
+
+
     </div>
+  </div>
 </div>
 
 <!--Utilities deposit-->
@@ -136,7 +135,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form role="form" method="POST" action="">
+        <div>
           <input type="hidden" name="_token" value="">
 
           <div class="row mt-3">
@@ -194,7 +193,7 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button type="submit" class="btn btn-success" onclick="submitUtilityExpense()" >
+                <button class="btn btn-success" onclick="submitUtilityExpense()" >
                   Save
                 </button>
               </div>
@@ -203,7 +202,7 @@
             </div>
           </div>
 
-        </form>
+        </div>
       </div>
 
 
@@ -225,7 +224,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form role="form" method="POST" action="">
+        <div>
           <input type="hidden" name="_token" value="">
 
           <div class="row mt-3">
@@ -283,8 +282,8 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button type="submit" class="btn btn-success" onclick="submitExtraExpense()" >
-                  Save Utility Expense Info
+                <button class="btn btn-success" onclick="submitExtraExpense()" >
+                  Save
                 </button>
               </div>
               <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
@@ -292,7 +291,7 @@
             </div>
           </div>
 
-        </form>
+        </div>
       </div>
 
 
@@ -366,7 +365,7 @@
       </div>
 
       <div class="modal-body">
-        <form role="form" method="POST" action="">
+        <div >
           <input type="hidden" name="_token" value="">
           <div class="form-group">
             <div>
@@ -463,12 +462,12 @@
 
           <div class="form-group">
             <div>
-              <button type="submit" class="btn btn-success" onclick="submitData()">
+              <button  class="btn btn-success" onclick="submitData()">
                 Add Property
               </button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -502,12 +501,12 @@
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
           <form>
             <div class="input-group no-border">
-<!--              <input type="text" value="" class="form-control" placeholder="Search...">-->
-<!--              <div class="input-group-append">-->
-<!--                <div class="input-group-text">-->
-<!--                  <i class="now-ui-icons ui-1_zoom-bold"></i>-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--              <input type="text" value="" class="form-control" placeholder="Search...">-->
+              <!--              <div class="input-group-append">-->
+              <!--                <div class="input-group-text">-->
+              <!--                  <i class="now-ui-icons ui-1_zoom-bold"></i>-->
+              <!--                </div>-->
+              <!--              </div>-->
             </div>
           </form>
         </div>
@@ -525,15 +524,15 @@
               <h5 class="card-category">Increment Details</h5>
               <h4 class="card-title">Rent Increment Amount</h4>
               <div class="dropdown">
-<!--                <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">-->
-<!--                  <i class="now-ui-icons loader_gear"></i>-->
+                <!--                <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">-->
+                <!--                  <i class="now-ui-icons loader_gear"></i>-->
                 </button>
-<!--                <div class="dropdown-menu dropdown-menu-right">-->
-<!--                  <a class="dropdown-item" href="#">Idle Texter Info</a>-->
-<!--                  <a class="dropdown-item" href="#">Download Idle Texter</a>-->
-<!--                  <a class="dropdown-item" href="#">Refresh Data</a>-->
-<!--                  <a class="dropdown-item" href="#">Download Data</a>-->
-<!--                </div>-->
+                <!--                <div class="dropdown-menu dropdown-menu-right">-->
+                <!--                  <a class="dropdown-item" href="#">Idle Texter Info</a>-->
+                <!--                  <a class="dropdown-item" href="#">Download Idle Texter</a>-->
+                <!--                  <a class="dropdown-item" href="#">Refresh Data</a>-->
+                <!--                  <a class="dropdown-item" href="#">Download Data</a>-->
+                <!--                </div>-->
               </div>
             </div>
             <div class="card-body">
@@ -553,16 +552,16 @@
             <div class="card-header">
               <h5 class="card-category">Rent Payment</h5>
               <h4 class="card-title">Rent Paid / Rent Arrears </h4>
-<!--              <div class="dropdown">-->
-<!--                <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">-->
-<!--                  <i class="now-ui-icons loader_gear"></i>-->
-<!--                </button>-->
-<!--                <div class="dropdown-menu dropdown-menu-right">-->
-<!--                  <a class="dropdown-item" href="#">Refresh Data</a>-->
-<!--                  <a class="dropdown-item" href="#">Download Data</a>-->
+              <!--              <div class="dropdown">-->
+              <!--                <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">-->
+              <!--                  <i class="now-ui-icons loader_gear"></i>-->
+              <!--                </button>-->
+              <!--                <div class="dropdown-menu dropdown-menu-right">-->
+              <!--                  <a class="dropdown-item" href="#">Refresh Data</a>-->
+              <!--                  <a class="dropdown-item" href="#">Download Data</a>-->
 
-<!--                </div>-->
-<!--              </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
             </div>
             <div class="card-body">
               <div class="chart-area">
@@ -652,32 +651,32 @@
                     </tr>
 
 
-<!--                    <tr>-->
-<!--                      <td class="text-center notification ">-->
-<!--                        <i class="fa fa-exclamation-circle"></i>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <span class="badge badge-primary ">Pending</span> Property <a href="#">Deep State</a>-->
-<!--                        has two overdue rents and an upcoming one for the 2nd December.-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        2014/08/08 12:08-->
-<!--                      </td>-->
-<!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                      <td class="text-center notification ">-->
+                    <!--                        <i class="fa fa-exclamation-circle"></i>-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        <span class="badge badge-primary ">Pending</span> Property <a href="#">Deep State</a>-->
+                    <!--                        has two overdue rents and an upcoming one for the 2nd December.-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        2014/08/08 12:08-->
+                    <!--                      </td>-->
+                    <!--                    </tr>-->
 
 
-<!--                    <tr>-->
-<!--                      <td class="text-center notification ">-->
-<!--                        <i class="fa fa-comment "></i>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <span class="badge badge-warning ">Notification</span> Property <a href="# ">NIS</a>-->
-<!--                        rent of Kshs. 6M is due on 1st June.-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        2014/08/08 12:08-->
-<!--                      </td>-->
-<!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                      <td class="text-center notification ">-->
+                    <!--                        <i class="fa fa-comment "></i>-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        <span class="badge badge-warning ">Notification</span> Property <a href="# ">NIS</a>-->
+                    <!--                        rent of Kshs. 6M is due on 1st June.-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        2014/08/08 12:08-->
+                    <!--                      </td>-->
+                    <!--                    </tr>-->
 
 
                     </tbody>
@@ -701,44 +700,44 @@
 
                     </tr>
 
-<!--                    <tr>-->
-<!--                      <td class="text-center notification">-->
-<!--                        <i class="fa fa-exclamation-circle"></i>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <span class="badge badge-warning ">Notification</span> Receipts for properties-->
-<!--                        <a href="#">KANJATA</a> , <a href="#">Survey</a> and <a href="#">Ardhi</a>-->
-<!--                        has been sent to your email address.-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        2014/08/08 12:08-->
-<!--                      </td>-->
-<!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                      <td class="text-center notification">-->
+                    <!--                        <i class="fa fa-exclamation-circle"></i>-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        <span class="badge badge-warning ">Notification</span> Receipts for properties-->
+                    <!--                        <a href="#">KANJATA</a> , <a href="#">Survey</a> and <a href="#">Ardhi</a>-->
+                    <!--                        has been sent to your email address.-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        2014/08/08 12:08-->
+                    <!--                      </td>-->
+                    <!--                    </tr>-->
 
-<!--                    <tr>-->
-<!--                      <td class="text-center notification ">-->
-<!--                        <i class="fa fa-comment"></i>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">KANJATA-->
-<!--                      </a> has been paid under receipt referenced <a href="#">INV-56789</a> with a increment rate of-->
-<!--                        <span class="badge badge-success "> 90%</span> p.a.-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        2014/08/08 12:08-->
-<!--                      </td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                      <td class="text-center notification ">-->
-<!--                        <i class="fa fa-comment"></i>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">Survey-->
-<!--                      </a> has been paid under receipt referenced <a href="#">INV-123456</a>.</td>-->
-<!--                      <td>-->
-<!--                        2014/08/08 12:08-->
-<!--                      </td>-->
-<!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                      <td class="text-center notification ">-->
+                    <!--                        <i class="fa fa-comment"></i>-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">KANJATA-->
+                    <!--                      </a> has been paid under receipt referenced <a href="#">INV-56789</a> with a increment rate of-->
+                    <!--                        <span class="badge badge-success "> 90%</span> p.a.-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        2014/08/08 12:08-->
+                    <!--                      </td>-->
+                    <!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                      <td class="text-center notification ">-->
+                    <!--                        <i class="fa fa-comment"></i>-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        <span class="badge badge-success ">Completed</span> Rent for property <a href="#">Survey-->
+                    <!--                      </a> has been paid under receipt referenced <a href="#">INV-123456</a>.</td>-->
+                    <!--                      <td>-->
+                    <!--                        2014/08/08 12:08-->
+                    <!--                      </td>-->
+                    <!--                    </tr>-->
 
 
                     </tbody>
@@ -762,17 +761,17 @@
 
                     </tr>
 
-<!--                    <tr>-->
-<!--                      <td class="text-center notification">-->
-<!--                        <i class="fa fa-comment"></i>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <span class="badge badge-danger">Overdue</span> Property Ardhi has an  overdue rent of Kshs. 1M-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        2014/08/08 12:08-->
-<!--                      </td>-->
-<!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                      <td class="text-center notification">-->
+                    <!--                        <i class="fa fa-comment"></i>-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        <span class="badge badge-danger">Overdue</span> Property Ardhi has an  overdue rent of Kshs. 1M-->
+                    <!--                      </td>-->
+                    <!--                      <td>-->
+                    <!--                        2014/08/08 12:08-->
+                    <!--                      </td>-->
+                    <!--                    </tr>-->
 
 
                     </tbody>
@@ -802,7 +801,7 @@
                 <tr th:each="property : ${propertyList}">
                   <td>1</td>
 
-<!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
                   <td th:text="${property.getPropertyName()}">Name</td>
                   <td th:text="${property.getPropertyRent()}">Rent</td>
                   <td th:text="${property.getPropertyLocation()}">Location</td>
@@ -1054,7 +1053,7 @@
       <form>
         <div class="modal-header">
           <h4 class="modal-title">Property Details</h4>
-<!--          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+          <!--          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
         </div>
 
         <div class="modal-body">
@@ -1064,7 +1063,7 @@
 
         <div class="modal-footer">
           <input type="button" class="btn btn-default" th:onclick="dis()"  data-dismiss="modal" value="Cancel" id="disposeBtn">
-<!--          <input type="submit" class="btn btn-info" value="Save">-->
+          <!--          <input type="submit" class="btn btn-info" value="Save">-->
         </div>
       </form>
     </div>
@@ -1079,7 +1078,7 @@
     $("#exampleModalCenter").on("hidden.bs.modal", function(){
       $(".modal-body").html("");
       location.reload();
-  }); }
+    }); }
 
   function submitData() {
     var propertyName = document.getElementById("propertyName").value;
@@ -1094,41 +1093,66 @@
     var atLeastOneIsChecked = $('input[name="chk[]"]:checked').length > 0;
     var dropdownMenuButton = $('#combo :selected').text();
 
-   // convert to JSON
-    var dataJson = {
-      "propertyName":propertyName,
-      "propertyLocation":propertyLocation,
-      "propertyDetails":moreDetails,
-      "propertyLandlordDetails":landLordDetails,
-      "paymentSchedule":dropdownMenuButton,
-      "propertyTenancyPeriod":tenancyPeriod,
-      "propertyRentAmount":rentAmount,
-      "incrementalPerc":incrementalPerc,
-      "propertyDepositAmount":depositAmount,
-      "isVat":atLeastOneIsChecked,
-      "propertyOccupancyDate":occupationDate
-    };
+    if (
+            propertyName && propertyLocation && moreDetails &&
+            landLordDetails && incrementalPerc && depositAmount &&
+            occupationDate && tenancyPeriod && rentAmount && dropdownMenuButton
+    ){
 
-    var postData = JSON.stringify(dataJson);
-    //
-    console.log(postData)
+      // convert to JSON
+      var dataJson = {
+        "propertyName":propertyName,
+        "propertyLocation":propertyLocation,
+        "propertyDetails":moreDetails,
+        "propertyLandlordDetails":landLordDetails,
+        "paymentSchedule":dropdownMenuButton,
+        "propertyTenancyPeriod":tenancyPeriod,
+        "propertyRentAmount":rentAmount,
+        "incrementalPerc":incrementalPerc,
+        "propertyDepositAmount":depositAmount,
+        "isVat":atLeastOneIsChecked,
+        "propertyOccupancyDate":occupationDate
+      };
 
-    // post data
-    $.ajax({
-      type: 'POST',
-      url: '/api/v1/properties/add_property',
-      data: postData, // or JSON.stringify ({name: 'jonas'}),
-      success: function(result) {
-        alert('success: ' + "");
+      var postData = JSON.stringify(dataJson);
+      //
+      console.log(postData)
 
-      },
-      error:function (error) {
-        alert('error: ' + error);
+      // post data
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/properties/add_property',
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+          swal(
+                  'Successful Save',
+                  'The receipt has been saved successfully.',
+                  'success'
+          )
 
-      },
-      contentType: "application/json",
-      dataType: 'json'
-    });
+        },
+        error:function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Some fields have not yet been filled.',
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+
+    }else {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+    }
+
+
 
   }
 
@@ -1138,78 +1162,114 @@
     var receiptDate = document.getElementById("receiptDate").value;
     var propertySelectName = $('#propertySelectName :selected').text();
 
-   // convert to JSON
-    var dataJson = {
-      "receiptReference":referenceNo,
-      "amountPaid":paidAmount,
-      "datePaid":receiptDate,
-      "propertyName":propertySelectName,
-    };
+    if (referenceNo && paidAmount && receiptDate){
 
-    var postData = JSON.stringify(dataJson);
-    //
-    console.log(postData)
+      // convert to JSON
+      var dataJson = {
+        "receiptReference":referenceNo,
+        "amountPaid":paidAmount,
+        "datePaid":receiptDate,
+        "propertyName":propertySelectName,
+      };
 
-    // post data
-    $.ajax({
-      type: 'POST',
-      url: '/api/v1/receipts/add_receipts',
-      // url: 'http://192.168.84.165:8084/api/v1/receipts/add_receipts',
-      data: postData, // or JSON.stringify ({name: 'jonas'}),
-      success: function(result) {
-        alert('success: ' + "");
+      var postData = JSON.stringify(dataJson);
+      //
+      console.log(postData)
 
-      },
-      error:function (error) {
-        alert('error: ' + error);
+      // post data
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/receipts/add_receipts',
+        // url: 'http://192.168.84.165:8084/api/v1/receipts/add_receipts',
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+          swal(
+                  'Successful Save',
+                  'The expense has been saved successfully.',
+                  'success'
+          )
 
-      },
-      contentType: "application/json",
-      dataType: 'json'
-    });
+        },
+        error:function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Some fields have not yet been filled.',
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+
+    }else {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+
+    }
+
+
 
   }
 
   function submitUtilityExpense() {
+
     var utilityExpenseName = document.getElementById("utilityExpenseName").value;
     var utilityDepositAmount = document.getElementById("utilityDepositAmount").value;
     var expenseDate = document.getElementById("expenseDate").value;
     var propertySelectName = $('#propertyNames :selected').text();
 
-   // convert to JSON
-    var dataJson = {
-      "expenseName":utilityExpenseName,
-      "expenseAmount":utilityDepositAmount,
-      "expenseDate":expenseDate,
-      "propertyName":propertySelectName,
-    };
+    if (utilityExpenseName && utilityDepositAmount && expenseDate){
 
-    var postData = JSON.stringify(dataJson);
+      var dataJson = {
+        "expenseName":utilityExpenseName,
+        "expenseAmount":utilityDepositAmount,
+        "expenseDate":expenseDate,
+        "propertyName":propertySelectName,
+      };
 
-    // post data
-    $.ajax({
+      var postData = JSON.stringify(dataJson);
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/expenses/add-utility-expenses',
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+
+          swal(
+                  'Successful Save',
+                  'The expense has been saved successfully.',
+                  'success'
+          )
+
+        },
+        error:function (error) {
+          // alert('error: ' + error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
 
 
-      type: 'POST',
-      url: '/api/v1/expenses/add-utility-expenses',
-      data: postData, // or JSON.stringify ({name: 'jonas'}),
-      success: function(result) {
-        console.log("success "+result)
-        alert('success: ' + "");
-      },
-      error:function (error) {
-        // alert('error: ' + error);
-        // Swal.fire({
-        //   title: error,
-        //   confirmButtonText: "<u>Done</u>",
-        // });
-        console.log("error "+error)
-        alert('error: ' + "");
+    }else {
 
-      },
-      contentType: "application/json",
-      dataType: 'json'
-    });
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+
+    }
 
   }
 
@@ -1219,39 +1279,53 @@
     var paidExpenseDate = document.getElementById("paidExpenseDate").value;
     var nameProperty = $('#nameProperty :selected').text();
 
-   // convert to JSON
-    var dataJson = {
-      "expenseName":expenseName,
-      "expenseAmount":expenseDepositAmount,
-      "expenseDate":paidExpenseDate,
-      "propertyName":nameProperty,
-    };
+    if (expenseName && expenseDepositAmount && paidExpenseDate){
 
-    var postData = JSON.stringify(dataJson);
-    //
-    console.log("-*-*-*-*"+postData)
+      // convert to JSON
+      var dataJson = {
+        "expenseName":expenseName,
+        "expenseAmount":expenseDepositAmount,
+        "expenseDate":paidExpenseDate,
+        "propertyName":nameProperty,
+      };
 
-    // post data
-    $.ajax({
-      type: 'POST',
-      url: '/api/v1/expenses/add-extra-expenses',
-      data: postData, // or JSON.stringify ({name: 'jonas'}),
-      success: function(result) {
-        alert('success: ' + "");
+      var postData = JSON.stringify(dataJson);
+
+      // post data
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/expenses/add-extra-expenses',
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+          swal(
+                  'Successful Save',
+                  'The expense has been saved successfully.',
+                  'success'
+          )
+
+        },
+        error:function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+
+    }else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+
+    }
 
 
-      },
-      error:function (error) {
-        alert('error: ' + error);
-        // Swal.fire({
-        //   title: error,
-        //   confirmButtonText: "<u>Done</u>",
-        // });
-
-      },
-      contentType: "application/json",
-      dataType: 'json'
-    });
 
   }
 
