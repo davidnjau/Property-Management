@@ -471,7 +471,10 @@ demo = {
                     var propertyName = response.results[i].propertyName;
                     var propertyrent = response.results[i].propertyRentAmount;
 
+                    // propertiesName.push("")
                     propertiesName.push(propertyName)
+
+                    // propertiesRent.push(0)
                     propertiesRent.push(propertyrent)
                 }
 

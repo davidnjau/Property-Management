@@ -30,6 +30,8 @@ public class ReceiptsServiceImpl implements ReceiptsService {
 
     @Override
     public List<Receipts> getAllReceipts() {
+
+
         return receiptsRepository.findAll();
     }
 
@@ -53,10 +55,10 @@ public class ReceiptsServiceImpl implements ReceiptsService {
 
         Properties properties = propertiesServiceImpl.findPropertyByName(receipt.getPropertyName());
         String propertyId = properties.getId();
+        Double rentAmount = properties.getPropertyRentAmount();
 
         Double amountPaid = receipt.getAmountPaid();
         String referenceNumber = receipt.getReceiptReference();
-        Double rentAmount = receipt.getRentAmount();
         Date datePaid = receipt.getDatePaid();
 
         Receipts receipts = new Receipts(

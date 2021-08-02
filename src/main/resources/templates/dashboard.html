@@ -18,6 +18,7 @@
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard.min.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_dots.min.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
   <!-- CSS Files -->
 
@@ -56,11 +57,6 @@
                     <div class="form-group">
                         <div>
                             <textarea class="form-control" placeholder="Receipt Reference No" id="referenceNo" rows="1" required></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div>
-                            <textarea class="form-control" placeholder="Rent Amount" id="propertyAmount" rows="1" required></textarea>
                         </div>
                     </div>
 
@@ -809,7 +805,6 @@
   }
 
   function submitReceiptData() {
-    var propertyAmount = document.getElementById("propertyAmount").value;
     var referenceNo = document.getElementById("referenceNo").value;
     var paidAmount = document.getElementById("paidAmount").value;
     var receiptDate = document.getElementById("receiptDate").value;
@@ -817,7 +812,6 @@
 
    // convert to JSON
     var dataJson = {
-      "rentAmount":propertyAmount,
       "receiptReference":referenceNo,
       "amountPaid":paidAmount,
       "datePaid":receiptDate,

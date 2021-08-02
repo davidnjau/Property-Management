@@ -49,6 +49,7 @@ public class WebController {
 
         }
 
+
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("propertyList", propertyList);
         modelAndView.addObject("propertyNameList", propertyNameList);
