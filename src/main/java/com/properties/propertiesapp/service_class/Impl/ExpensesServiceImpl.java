@@ -3,6 +3,7 @@ package com.properties.propertiesapp.service_class.Impl;
 import com.properties.propertiesapp.entity.Expenses;
 import com.properties.propertiesapp.entity.Properties;
 import com.properties.propertiesapp.helper_class.DbExpenses;
+import com.properties.propertiesapp.helper_class.DbExpensesData;
 import com.properties.propertiesapp.helper_class.DbExpensesResults;
 import com.properties.propertiesapp.helper_class.DbResults;
 import com.properties.propertiesapp.repository.ExpensesRepository;
@@ -10,6 +11,7 @@ import com.properties.propertiesapp.service_class.service.ExpensesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,10 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Autowired
     private ExpensesRepository expensesRepository;
+
+    @Autowired
+    private PropertiesServiceImpl propertiesService;
+
 
     @Override
     public Expenses addExpense(Expenses expenses) {
@@ -85,11 +91,28 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     }
 
-    public Expenses getExpenseDetails(String expenseId){
+    public DbExpensesData getExpenseDetails(String expenseId){
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
 
         Expenses expenses = getExpenseById(expenseId);
         if (expenses != null){
-            return expenses;
+
+            String id = expenses.getId();
+            String expenseName = expenses.getExpenseName();
+            Double expenseAmount = expenses.getExpenseAmount();
+            Date expenseDate = expenses.getExpenseDate();
+            String expenseType = expenses.getExpenseType();
+            String expenseDateFormat = sdf.format(expenseDate);
+            String formAmount = expenseAmount + " Kshs";
+
+            String propertyId = expenses.getPropertyId();
+
+            String propertyName = propertiesService.getPropertyById(propertyId).getPropertyName();
+
+
+            return new DbExpensesData(
+                    id, propertyName, expenseName, formAmount, expenseDateFormat, expenseType
+            );
         }else {
             return null;
         }

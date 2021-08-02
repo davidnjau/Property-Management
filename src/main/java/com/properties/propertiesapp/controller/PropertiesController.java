@@ -209,7 +209,7 @@ public class PropertiesController {
     @RequestMapping(value = "/api/v1/expenses/get-expense/{expense_id}", method = RequestMethod.GET)
     public ResponseEntity getExpensesDetails(@PathVariable("expense_id") String expense_id){
 
-        Expenses expenseDetails = expensesServiceIml.getExpenseDetails(expense_id);
+        DbExpensesData expenseDetails = expensesServiceIml.getExpenseDetails(expense_id);
         if (expenseDetails != null){
 
             return new ResponseEntity(expenseDetails, HttpStatus.OK);

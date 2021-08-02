@@ -89,3 +89,4 @@ data class DbReceiptsData(
     val rentAmount: String,
     val datePaid: String
 )
+

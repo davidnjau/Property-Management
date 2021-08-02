@@ -886,7 +886,7 @@
                   <td>
                     <button type="submit" class="btn btn-primary"
                             data-toggle="modal"
-                            th:attr="onclick=|viewModel('${expenses.getId()}')|"
+                            th:attr="onclick=|viewExpenses('${expenses.getId()}')|"
                     >
                       View
                     </button>
@@ -1024,6 +1024,56 @@
         html += '<tr>';
         html += '<td>'+"Receipt Date"+'</td>';
         html += '<td>'+response.datePaid+'</td>';
+        html += '</tr>';
+
+        html += '</table>';
+
+        $('.modal-content .modal-body').append(html)
+
+        // $('.modal-body').html(response);
+
+        // Display Modal
+        $('#exampleModalCenter').modal('show');
+
+
+      }, error: function (error) {
+        alert('error: ' + error);
+      }
+
+    })
+
+  }
+
+  function viewExpenses(id){
+
+    $.ajax({
+
+      type: 'GET',
+      url: "/api/v1/expenses/get-expense/" + id,
+      success: function(response) {
+
+        var html="";
+        html += '<table class="table" >';
+
+
+        html += '<tr>';
+        html += '<td>'+"id"+'</td>';
+        html += '<td>'+response.id+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Expense Name"+'</td>';
+        html += '<td>'+response.expenseName+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Expense Date"+'</td>';
+        html += '<td>'+response.expenseDate+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Expense Amount"+'</td>';
+        html += '<td>'+response.expenseAmount+'</td>';
         html += '</tr>';
 
         html += '</table>';
