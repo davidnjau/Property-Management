@@ -210,6 +210,95 @@
   </div>
 </div>
 
+<!--Utilities deposit-->
+<div class="modal" id="addExtraExpenses">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add any incurred extra expenses</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form role="form" method="POST" action="">
+          <input type="hidden" name="_token" value="">
+
+          <div class="row mt-3">
+
+            <div class="dropdown col-md-6">
+              <div>
+
+                <label> Select the property: </label>
+
+              </div>
+            </div>
+
+            <div class="dropdown col-md-6">
+
+
+              <select  id="nameProperty">
+                <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+              </select>
+
+            </div>
+
+
+          </div>
+          <div class="row">
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="form-control text_area_details" type="text" placeholder="Enter Expense Name" id="expenseName" style="height: 70px">
+              </div>
+            </div>
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="form-control text_area_details" type="number" placeholder="Amount used" id="expenseDepositAmount"  style="height: 70px">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="dropdown col-md-6">
+              <div>
+
+                <label> Select Payment Date: </label>
+
+              </div>
+            </div>
+
+            <div class="dropdown col-md-6">
+              <div>
+                <input class="btn btn-secondary" type="date" placeholder="expenseDate" id="paidExpenseDate"/>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <div class="form-group">
+              <div>
+                <button type="submit" class="btn btn-success" onclick="submitExtraExpense()" >
+                  Save Utility Expense Info
+                </button>
+              </div>
+              <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
 <!-- The Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog">
@@ -939,8 +1028,8 @@
    // convert to JSON
     var dataJson = {
       "expenseName":utilityExpenseName,
-      "depositAmount":utilityDepositAmount,
-      "datePaid":expenseDate,
+      "expenseAmount":utilityDepositAmount,
+      "expenseDate":expenseDate,
       "propertyName":propertySelectName,
     };
 
@@ -951,13 +1040,11 @@
     // post data
     $.ajax({
       type: 'POST',
-      url: '/api/v1/expense/add_utility_expenses',
-      // url: 'http://192.168.84.165:8084/api/v1/receipts/add_receipts',
+      url: '/api/v1/expense/add-utility-expenses',
       data: postData, // or JSON.stringify ({name: 'jonas'}),
       success: function(result) {
         Swal.fire({
           title: "<i>Expense Added Successfully.</i>",
-          // html: "Testno  sporocilo za objekt: <b>test</b>",
           confirmButtonText: "<u>Done</u>",
         });
 
@@ -966,7 +1053,50 @@
         // alert('error: ' + error);
         Swal.fire({
           title: error,
-          // html: "Testno  sporocilo za objekt: <b>test</b>",
+          confirmButtonText: "<u>Done</u>",
+        });
+
+      },
+      contentType: "application/json",
+      dataType: 'json'
+    });
+
+  }
+
+  function submitExtraExpense() {
+    var expenseName = document.getElementById("expenseName").value;
+    var expenseDepositAmount = document.getElementById("expenseDepositAmount").value;
+    var paidExpenseDate = document.getElementById("paidExpenseDate").value;
+    var nameProperty = $('#nameProperty :selected').text();
+
+   // convert to JSON
+    var dataJson = {
+      "expenseName":expenseName,
+      "expenseAmount":expenseDepositAmount,
+      "expenseDate":paidExpenseDate,
+      "propertyName":nameProperty,
+    };
+
+    var postData = JSON.stringify(dataJson);
+    //
+    console.log(postData)
+
+    // post data
+    $.ajax({
+      type: 'POST',
+      url: '/api/v1/expense/add-extra-expenses ',
+      data: postData, // or JSON.stringify ({name: 'jonas'}),
+      success: function(result) {
+        Swal.fire({
+          title: "<i>Expense Added Successfully.</i>",
+          confirmButtonText: "<u>Done</u>",
+        });
+
+      },
+      error:function (error) {
+        // alert('error: ' + error);
+        Swal.fire({
+          title: error,
           confirmButtonText: "<u>Done</u>",
         });
 

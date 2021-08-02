@@ -1,5 +1,6 @@
 package com.properties.propertiesapp.helper_class
 
+import com.properties.propertiesapp.entity.Expenses
 import com.properties.propertiesapp.entity.Properties
 import com.properties.propertiesapp.entity.Receipts
 import java.util.*
@@ -9,6 +10,12 @@ data class DbResults(
     val next : String?,
     val previous: String?,
     val results: List<Properties>
+)
+data class DbExpensesResults(
+    val count: Int,
+    val next : String?,
+    val previous: String?,
+    val results: List<Expenses>
 )
 data class DbPaymentReceipt(
     val count: Int,
