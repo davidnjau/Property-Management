@@ -806,12 +806,18 @@
                   <td th:text="${property.getPropertyRent()}">Rent</td>
                   <td th:text="${property.getPropertyLocation()}">Location</td>
 
+
+
                   <td>
                     <button type="submit" class="btn btn-primary"
                             data-toggle="modal"
-                            th:attr="onclick=|viewModel('${property.getId()}')|"
-                    >
+                            th:attr="onclick=|viewModel('${property.getId()}')|">
                       View
+                    </button>
+                    <button type="submit" class="btn btn-primary"
+                            data-toggle="modal"
+                            th:attr="onclick=|viewEditModel('${property.getId()}')|">
+                      Edit
                     </button>
                   </td>
                 </tr>
@@ -908,6 +914,32 @@
 <!--   Core JS Files   -->
 
 <script>
+
+  function viewEditModel(id){
+
+    $.ajax({
+
+      type: 'GET',
+      url: "/api/v1/properties/get_property/" + id,
+      success: function(response) {
+
+
+
+
+        $('.modal-body').html(response);
+
+        // Display Modal
+        $('#exampleModalCenter').modal('show');
+
+
+      }, error: function (error) {
+        alert('error: ' + error);
+      }
+
+    })
+
+  }
+
 
   function viewModel(id){
 
