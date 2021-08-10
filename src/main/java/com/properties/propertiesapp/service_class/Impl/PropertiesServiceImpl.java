@@ -22,12 +22,17 @@ public class PropertiesServiceImpl implements PropertiesService {
     @Autowired
     private PropertiesRepository propertiesRepository;
 
+    @Autowired
+    private EmailServiceImpl emailService;
+
     @Override
     public Results addProperty(Properties properties) {
 
         try{
 
             Properties addedProperty = propertiesRepository.save(properties);
+            emailService.sendSavedMail(addedProperty);
+
             return new Results(200, addedProperty);
 
         }catch (Exception e){
