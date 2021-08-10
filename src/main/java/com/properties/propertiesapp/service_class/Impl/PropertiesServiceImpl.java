@@ -1,10 +1,7 @@
 package com.properties.propertiesapp.service_class.Impl;
 
 import com.properties.propertiesapp.entity.Properties;
-import com.properties.propertiesapp.helper_class.DbPropetiesData;
-import com.properties.propertiesapp.helper_class.DbResults;
-import com.properties.propertiesapp.helper_class.DbResults1;
-import com.properties.propertiesapp.helper_class.Results;
+import com.properties.propertiesapp.helper_class.*;
 import com.properties.propertiesapp.repository.PropertiesRepository;
 import com.properties.propertiesapp.service_class.service.PropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +28,9 @@ public class PropertiesServiceImpl implements PropertiesService {
         try{
 
             Properties addedProperty = propertiesRepository.save(properties);
-            emailService.sendSavedMail(addedProperty);
+
+            DataFormatter dataFormatter = new DataFormatter();
+            dataFormatter.sendPropertyMail(emailService,addedProperty);
 
             return new Results(200, addedProperty);
 
