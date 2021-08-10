@@ -14,23 +14,15 @@ class DataFormatter {
         emailService: EmailServiceImpl,
         addedProperty: Properties
     ) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-
-            sendMail(emailService,addedProperty)
-
-        }
-
+        CoroutineScope(Dispatchers.IO).launch { emailService.sendSavedProperty(addedProperty) }
+    }
+    fun sendReceiptMail(
+        emailService: EmailServiceImpl,
+        addedProperty: DbReceiptsData
+    ) {
+        CoroutineScope(Dispatchers.IO).launch { emailService.sendSavedReceipt(addedProperty) }
     }
 
-    private suspend fun sendMail(emailService: EmailServiceImpl, addedProperty: Properties) {
 
-        CoroutineScope(Dispatchers.IO).launch {
-
-            emailService.sendSavedMail(addedProperty)
-
-        }
-
-    }
 
 }

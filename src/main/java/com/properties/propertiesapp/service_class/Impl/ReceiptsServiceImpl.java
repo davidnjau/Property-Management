@@ -2,10 +2,7 @@ package com.properties.propertiesapp.service_class.Impl;
 
 import com.properties.propertiesapp.entity.Properties;
 import com.properties.propertiesapp.entity.Receipts;
-import com.properties.propertiesapp.helper_class.DbPaymentReceipt;
-import com.properties.propertiesapp.helper_class.DbReceipts;
-import com.properties.propertiesapp.helper_class.DbReceiptsData;
-import com.properties.propertiesapp.helper_class.DbRentPaid;
+import com.properties.propertiesapp.helper_class.*;
 import com.properties.propertiesapp.repository.ReceiptsRepository;
 import com.properties.propertiesapp.service_class.service.ReceiptsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,8 @@ public class ReceiptsServiceImpl implements ReceiptsService {
     @Autowired
     private PropertiesServiceImpl propertiesService;
 
+    @Autowired
+    private EmailServiceImpl emailService;
 
     @Override
     public Receipts addReceipt(Receipts receipt) {
@@ -89,6 +88,16 @@ public class ReceiptsServiceImpl implements ReceiptsService {
         Receipts receipts = new Receipts(
           propertyId,amountPaid, referenceNumber, rentAmount, datePaid
         );
+        Receipts addedReceipts = addReceipt(receipts);
+        if (addedReceipts != null){
+
+            String propertyName = propertiesService.getPropertyById(propertyId).getPropertyName();
+            DbReceiptsData dbReceiptsData = new DbReceiptsData("", propertyName, referenceNumber, rentAmount.toString(), datePaid.toString());
+
+            DataFormatter dataFormatter = new DataFormatter();
+            dataFormatter.sendReceiptMail(emailService,dbReceiptsData);
+
+        }
 
         return addReceipt(receipts);
     }

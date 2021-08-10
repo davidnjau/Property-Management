@@ -1,6 +1,7 @@
 package com.properties.propertiesapp.service_class.Impl;
 
 import com.properties.propertiesapp.entity.Properties;
+import com.properties.propertiesapp.helper_class.DbReceiptsData;
 import com.properties.propertiesapp.helper_class.User;
 import com.properties.propertiesapp.service_class.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
         return "Sent";
     }
 
-    public String sendSavedMail(Properties properties) throws MessagingException {
+    public String sendSavedProperty(Properties properties) throws MessagingException {
 
         String toAddress = "davidnjau21@gmail.com";
 
@@ -66,7 +67,23 @@ public class EmailServiceImpl implements EmailService {
         String process = templateEngine.process("welcome", context);
         javax.mail.internet.MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-        helper.setSubject("Welcome " + "user");
+        helper.setSubject("Saved Property");
+        helper.setText(process, true);
+        helper.setTo(toAddress);
+        emailSender.send(mimeMessage);
+        return "Sent";
+    }
+    public String sendSavedReceipt(DbReceiptsData receiptsData) throws MessagingException {
+
+        String toAddress = "davidnjau21@gmail.com";
+
+        Context context = new Context();
+        context.setVariable("receipts", receiptsData);
+
+        String process = templateEngine.process("receipt", context);
+        javax.mail.internet.MimeMessage mimeMessage = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+        helper.setSubject("Saved Receipt");
         helper.setText(process, true);
         helper.setTo(toAddress);
         emailSender.send(mimeMessage);
