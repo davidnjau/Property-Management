@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -229,6 +230,31 @@ public class PropertiesController {
         }else {
             return ResponseEntity.badRequest().body(new ErrorMessage("There is no property associated with that id"));
         }
+    }
+
+    @RequestMapping(value = "/api/v1/properties/update_property", method = RequestMethod.PUT)
+    public ResponseEntity updateUserDetails(@RequestBody Properties properties) throws UnsupportedEncodingException {
+
+        Properties cafeteriaMeals = propertiesServiceImpl.updateProperty(properties);
+        if (cafeteriaMeals != null){
+            return new ResponseEntity(cafeteriaMeals, HttpStatus.OK);
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("There was an issue. Try again"));
+        }
+
+
+    }
+    @RequestMapping(value = "/api/v1/receipts/update_receipts", method = RequestMethod.PUT)
+    public ResponseEntity updateUserDetails(@RequestBody Receipts receipts) throws UnsupportedEncodingException {
+
+        Receipts receipts1 = receiptsServiceImpl.updateReceipts(receipts);
+        if (receipts1 != null){
+            return new ResponseEntity(receipts1, HttpStatus.OK);
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("There was an issue. Try again"));
+        }
+
+
     }
 
 

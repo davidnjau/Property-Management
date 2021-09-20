@@ -47,6 +47,42 @@ public class PropertiesServiceImpl implements PropertiesService {
 
     }
 
+    public Properties updateProperty(Properties properties){
+
+        String  propertyId = properties.getId();
+
+        Optional<Properties> optionalProperties = propertiesRepository.findById(propertyId);
+        if (optionalProperties.isPresent()){
+
+            Properties oldProperties = optionalProperties.get();
+            oldProperties.setPropertyName(properties.getPropertyName());
+            oldProperties.setPropertyDetails(properties.getPropertyName());
+            oldProperties.setPropertyLocation(properties.getPropertyName());
+            oldProperties.setPropertyLandlordDetails(properties.getPropertyName());
+            oldProperties.setPaymentSchedule(properties.getPropertyName());
+            oldProperties.setPropertyTenancyPeriod(properties.getPropertyTenancyPeriod());
+            oldProperties.setPropertyRentAmount(properties.getPropertyRentAmount());
+            oldProperties.setIncrementalPerc(properties.getIncrementalPerc());
+            oldProperties.setPropertyDepositAmount(properties.getPropertyDepositAmount());
+            oldProperties.setVat(properties.isVat());
+            oldProperties.setPropertyOccupancyDate(properties.getPropertyOccupancyDate());
+
+            return propertiesRepository.save(oldProperties);
+        }else {
+
+            Results results = addProperty(properties);
+            var statusCode = results.getStatusCode();
+            if (statusCode == 200) {
+                return properties;
+            }else {
+                return null;
+            }
+
+        }
+
+
+    }
+
     @Override
     public List<Properties> getAllProperty() {
         return propertiesRepository.findAll(Sort.by(Sort.Direction.ASC, "propertyName"));

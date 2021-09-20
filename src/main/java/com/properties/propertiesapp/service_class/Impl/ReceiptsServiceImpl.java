@@ -35,8 +35,6 @@ public class ReceiptsServiceImpl implements ReceiptsService {
 
     @Override
     public List<Receipts> getAllReceipts() {
-
-
         return receiptsRepository.findAll();
     }
 
@@ -51,6 +49,24 @@ public class ReceiptsServiceImpl implements ReceiptsService {
     @Override
     public Receipts getReceiptDetailsByPropertyId(String propertyId) {
         return receiptsRepository.findAllByPropertyId(propertyId);
+    }
+    
+    public Receipts updateReceipts(Receipts receipts){
+
+        Optional<Receipts> optionalProperties = receiptsRepository.findById(receipts.getId());
+        if (optionalProperties.isPresent()){
+
+            Receipts oldReceipts = optionalProperties.get();
+            oldReceipts.setReceiptReference(receipts.getReceiptReference());
+            oldReceipts.setAmountPaid(receipts.getAmountPaid());
+            oldReceipts.setDatePaid(receipts.getDatePaid());
+            oldReceipts.setRentAmount(receipts.getRentAmount());
+
+            return receiptsRepository.save(oldReceipts);
+        }else {
+            return null;
+        }
+        
     }
 
     /**
