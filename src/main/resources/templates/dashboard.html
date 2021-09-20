@@ -211,6 +211,133 @@
   </div>
 </div>
 
+<!-- Notify-->
+<div class="modal" id="sendNotifications">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Remind Someone of Something</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div>
+          <input type="hidden" name="_token" value="">
+
+          <div class="row">
+            <div class="dropdown col-md-12">
+              <div>
+                <input class="form-control text_area_details" type="text" placeholder="Enter Email Address" id="emailAddress" style="height: 70px">
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="dropdown col-md-6">
+                <div>
+                  <label> In regards to which property: </label>
+                </div>
+              </div>
+
+              <div class="dropdown col-md-6">
+                <select  id="propertyInQuestion">
+                  <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+                </select>
+              </div>
+
+
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="dropdown col-md-12">
+              <div>
+                <input class="form-control text_area_details" type="text" placeholder="Enter Subject" id="emailSubject" style="height: 70px">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="dropdown col-md-12">
+              <div>
+                <input class="form-control text_area_details" type="text" placeholder="Enter Content" id="emailContent" style="height: 70px">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <div class="form-group">
+              <div>
+                <button class="btn btn-success" onclick="sendNotification()" >
+                  Save
+                </button>
+              </div>
+              <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Configurations-->
+<div class="modal" id="addConfigurations">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Set your configurations here</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div>
+          <input type="hidden" name="_token" value="">
+
+          <div class="row">
+            <div class="dropdown col-md-12">
+              <div>
+                <input class="form-control text_area_details" type="text" placeholder="Enter Admin Email Address" id="adminAddress" style="height: 70px">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <div class="form-group">
+              <div>
+                <button class="btn btn-success" onclick="submitConfigurations()" >
+                  Save
+                </button>
+              </div>
+              <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
 <!--Utilities deposit-->
 <div class="modal" id="addExtraExpenses">
   <div class="modal-dialog">
@@ -238,7 +365,6 @@
             </div>
 
             <div class="dropdown col-md-6">
-
 
               <select  id="nameProperty">
                 <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
@@ -952,10 +1078,10 @@
         html += '<table class="table" >';
 
 
-        html += '<tr>';
-        html += '<td>'+"id"+'</td>';
-        html += '<td>'+response.id+'</td>';
-        html += '</tr>';
+        // html += '<tr>';
+        // html += '<td>'+"id"+'</td>';
+        // html += '<td>'+response.id+'</td>';
+        // html += '</tr>';
 
         html += '<tr>';
         html += '<td>'+"Property Name"+'</td>';
@@ -1032,10 +1158,10 @@
         html += '<table class="table" >';
 
 
-        html += '<tr>';
-        html += '<td>'+"id"+'</td>';
-        html += '<td>'+response.id+'</td>';
-        html += '</tr>';
+        // html += '<tr>';
+        // html += '<td>'+"id"+'</td>';
+        // html += '<td>'+response.id+'</td>';
+        // html += '</tr>';
 
         html += '<tr>';
         html += '<td>'+"Property Name"+'</td>';
@@ -1087,10 +1213,10 @@
         html += '<table class="table" >';
 
 
-        html += '<tr>';
-        html += '<td>'+"id"+'</td>';
-        html += '<td>'+response.id+'</td>';
-        html += '</tr>';
+        // html += '<tr>';
+        // html += '<td>'+"id"+'</td>';
+        // html += '<td>'+response.id+'</td>';
+        // html += '</tr>';
 
         html += '<tr>';
         html += '<td>'+"Expense Name"+'</td>';
@@ -1124,6 +1250,8 @@
     })
 
   }
+
+
 
 
 </script>
@@ -1410,6 +1538,109 @@
 
   }
 
+  function submitConfigurations(){
+
+    let adminAddress = document.getElementById("adminAddress").value;
+
+    if (adminAddress){
+
+      // convert to JSON
+      let dataJson = {
+        "adminAddress":adminAddress
+      };
+
+      let postData = JSON.stringify(dataJson);
+
+      // post data
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/configurations/add_configurations',
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+          swal(
+                  'Successful Save',
+                  'New configurations have been set.',
+                  'success'
+          )
+
+        },
+        error:function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+
+    }else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+
+    }
+
+  }
+
+  function sendNotification(){
+
+    let emailAddress = document.getElementById("emailAddress").value;
+    let propertyInQuestion = document.getElementById("propertyInQuestion").value;
+    let emailSubject = document.getElementById("emailSubject").value;
+    let emailContent = document.getElementById("emailContent").value;
+
+    if (emailAddress && propertyInQuestion && emailSubject && emailContent){
+
+      // convert to JSON
+      let dataJson = {
+        "emailAddress":emailAddress,
+        "propertyInQuestion":propertyInQuestion,
+        "emailSubject":emailSubject,
+        "emailContent":emailContent
+      };
+
+      let postData = JSON.stringify(dataJson);
+
+      // post data
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/emails/send_notification',
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+          swal(
+                  'Successful',
+                  'Please wait as we send the notification.',
+                  'success'
+          )
+
+        },
+        error:function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+
+    }else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+
+    }
+
+  }
 
 
 

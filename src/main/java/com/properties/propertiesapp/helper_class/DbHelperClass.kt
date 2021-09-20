@@ -90,3 +90,12 @@ data class DbReceiptsData(
     val datePaid: String
 )
 
+data class SendNotifications(
+
+    val emailAddress: String,
+    val propertyInQuestion: String,
+    val emailSubject: String,
+    val emailContent: String
+
+)
+

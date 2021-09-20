@@ -1,18 +1,17 @@
 package com.properties.propertiesapp.controller;
 
+import com.properties.propertiesapp.entity.Configurations;
 import com.properties.propertiesapp.entity.Expenses;
 import com.properties.propertiesapp.entity.Properties;
 import com.properties.propertiesapp.entity.Receipts;
 import com.properties.propertiesapp.helper_class.*;
-import com.properties.propertiesapp.service_class.Impl.ExpensesServiceImpl;
-import com.properties.propertiesapp.service_class.Impl.NotificationServiceImpl;
-import com.properties.propertiesapp.service_class.Impl.PropertiesServiceImpl;
-import com.properties.propertiesapp.service_class.Impl.ReceiptsServiceImpl;
+import com.properties.propertiesapp.service_class.Impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -30,6 +29,12 @@ public class PropertiesController {
 
     @Autowired
     private ExpensesServiceImpl expensesServiceIml;
+
+    @Autowired
+    private ConfigurationsServiceImpl configurationsServiceImpl;
+
+    @Autowired
+    private EmailServiceImpl emailServiceImpl;
 
     @RequestMapping(value = "/api/v1/properties/add_property", method = RequestMethod.POST)
     public ResponseEntity addProperty(@RequestBody Properties properties){
@@ -52,6 +57,31 @@ public class PropertiesController {
 
         }else {
             return ResponseEntity.internalServerError().body(new ErrorMessage("Please try again."));
+        }
+    }
+
+    @RequestMapping(value = "/api/v1/configurations/add_configurations", method = RequestMethod.POST)
+    public ResponseEntity addConfigurations(@RequestBody Configurations configurations){
+
+        Configurations addedConfigurations = configurationsServiceImpl.addConfigurations(configurations);
+        if (addedConfigurations != null){
+            return new ResponseEntity(addedConfigurations, HttpStatus.OK);
+
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("Please try again. Configurations cannot be done at this time"));
+        }
+    }
+
+
+    @RequestMapping(value = "/api/v1/emails/send_notification", method = RequestMethod.POST)
+    public ResponseEntity sendNotifications(@RequestBody SendNotifications sendNotifications) throws MessagingException {
+
+        String notifications = emailServiceImpl.sendNotifications(sendNotifications);
+        if (notifications != null){
+            return new ResponseEntity(notifications, HttpStatus.OK);
+
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("Please try again. Notification Email couldn't be sent at this time"));
         }
     }
 
