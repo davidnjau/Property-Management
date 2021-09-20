@@ -52,4 +52,5 @@ public class EmailController {
         return new ResponseEntity<>("Please check your inbox for order confirmation", HttpStatus.OK);
     }
 
+
 }
