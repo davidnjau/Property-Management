@@ -1,5 +1,6 @@
 package com.properties.propertiesapp.helper_class
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.properties.propertiesapp.entity.Expenses
 import com.properties.propertiesapp.entity.Properties
 import com.properties.propertiesapp.entity.Receipts
@@ -92,10 +93,17 @@ data class DbReceiptsData(
 
 data class SendNotifications(
 
-    val emailAddress: String,
-    val propertyInQuestion: String,
-    val emailSubject: String,
-    val emailContent: String
+    @JsonProperty("emailAddress")
+    var emailAddress: String,
+
+    @JsonProperty("propertyInQuestion")
+    var propertyInQuestion: String,
+
+    @JsonProperty("emailSubject")
+    var emailSubject: String,
+
+    @JsonProperty("emailContent")
+    var emailContent: String
 
 )
 

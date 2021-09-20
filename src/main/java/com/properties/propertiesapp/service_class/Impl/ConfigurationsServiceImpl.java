@@ -17,7 +17,28 @@ public class ConfigurationsServiceImpl implements ConfigurationsService {
 
     @Override
     public Configurations addConfigurations(Configurations configurations) {
-        return configurationsRepository.save(configurations);
+
+        String EmailAddress = getAdminEmailAddress();
+        String adminEmailAddress = "";
+        if (EmailAddress != null){
+            adminEmailAddress = EmailAddress;
+        }
+
+        Configurations existingConfigurations = configurationsRepository.findAllByAdminEmailAddress(adminEmailAddress);
+        if (existingConfigurations != null){
+            String id = existingConfigurations.getId();
+
+            return configurationsRepository.findById(id)
+                    .map(oldConfigurations -> {
+                        oldConfigurations.setAdminEmailAddress(configurations.getAdminEmailAddress());
+                        return configurationsRepository.save(oldConfigurations);
+                    }).orElse(null);
+        }else {
+            return configurationsRepository.save(configurations);
+        }
+
+
+
     }
 
     @Override
@@ -33,7 +54,13 @@ public class ConfigurationsServiceImpl implements ConfigurationsService {
     public String getAdminEmailAddress(){
 
         List<Configurations> configurationsList = getConfigurations();
-        return configurationsList.get(0).getAdminEmailAddress();
+        if (!configurationsList.isEmpty()){
+            return configurationsList.get(0).getAdminEmailAddress();
+        }else {
+            return null;
+        }
+
+
 
     }
 
