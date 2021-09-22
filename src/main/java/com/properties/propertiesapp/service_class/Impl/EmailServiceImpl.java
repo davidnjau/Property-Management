@@ -1,9 +1,7 @@
 package com.properties.propertiesapp.service_class.Impl;
 
 import com.properties.propertiesapp.entity.Properties;
-import com.properties.propertiesapp.helper_class.DbReceiptsData;
-import com.properties.propertiesapp.helper_class.SendNotifications;
-import com.properties.propertiesapp.helper_class.User;
+import com.properties.propertiesapp.helper_class.*;
 import com.properties.propertiesapp.service_class.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -31,6 +29,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     public ConfigurationsServiceImpl configurationsServiceImpl;
+
+    @Autowired
+    private PropertiesServiceImpl propertiesService;
 
     @Override
     public void sendSimpleEmail(String toAddress, String subject, String message) {
@@ -61,7 +62,7 @@ public class EmailServiceImpl implements EmailService {
         return "Sent";
     }
 
-    public String sendSavedProperty(Properties properties) throws MessagingException {
+    public String sendSavedProperty(Properties savedProperties) throws MessagingException {
 
         String adminEmailAddress = configurationsServiceImpl.getAdminEmailAddress();
         String toAddress = "davidnjau21@gmail.com";
@@ -74,11 +75,29 @@ public class EmailServiceImpl implements EmailService {
             emailToSend = toAddress;
         }
 
+        String propertyName = savedProperties.getPropertyName();
+        Properties properties = propertiesService.findPropertyByName(propertyName);
+        String propertyId = properties.getId();
+        DbPropetiesData propertyDetails = propertiesService.getAllPropertyDetails(propertyId);
+
+        String receiptDetails =  "Property named: " + propertyName.toUpperCase() + " has been added to the Property Management System. \n"
+                + "It has a rent of " + propertyDetails.getPropertyRent() + "\n"
+                + " a tenancy period of " + propertyDetails.getPropertyTenancyPeriod() + ".\n"
+                + " " + propertyDetails.getIncrementalPerc() + "\n"
+                + " " + propertyDetails.getPropertyVatStatus() + "\n"
+                + " and the following is the LandLord details " + propertyDetails.getPropertyLandlordDetails() + ".\n";
+
+        NotificationsDetails notificationsDetails = new NotificationsDetails(
+                "Rent Payment.",receiptDetails
+        );
 
         Context context = new Context();
-        context.setVariable("property", properties);
+        context.setVariable("title", "Property Management.");
+        context.setVariable("content", "A Property has been added under your account.");
+        context.setVariable("notifications", notificationsDetails);
+        context.setVariable("propertyDetails", propertyDetails);
 
-        String process = templateEngine.process("welcome", context);
+        String process = templateEngine.process("notifications", context);
         javax.mail.internet.MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setSubject("Saved Property");
@@ -100,10 +119,30 @@ public class EmailServiceImpl implements EmailService {
             emailToSend = toAddress;
         }
 
-        Context context = new Context();
-        context.setVariable("receipts", receiptsData);
+        String receiptReference = receiptsData.getReceiptReference();
+        String datePaid = receiptsData.getDatePaid();
+        String rentAmount = receiptsData.getRentAmount();
 
-        String process = templateEngine.process("receipt", context);
+        String receiptDetails = "A receipt referenced: " + receiptReference + " has been added for the property named above. \n" +
+                "The Receipt was paid on " + datePaid + " for the amount " + rentAmount + " .";
+
+
+        String propertyName = receiptsData.getPropertyName();
+        Properties properties = propertiesService.findPropertyByName(propertyName);
+        String propertyId = properties.getId();
+        DbPropetiesData propertyDetails = propertiesService.getAllPropertyDetails(propertyId);
+
+        NotificationsDetails notificationsDetails = new NotificationsDetails(
+          "Rent Payment.",receiptDetails
+        );
+
+        Context context = new Context();
+        context.setVariable("title", "Property Management Receipt.");
+        context.setVariable("content", "A receipt has been paid for this property.");
+        context.setVariable("notifications", notificationsDetails);
+        context.setVariable("propertyDetails", propertyDetails);
+
+        String process = templateEngine.process("notifications", context);
         javax.mail.internet.MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setSubject("Saved Receipt");
@@ -135,9 +174,17 @@ public class EmailServiceImpl implements EmailService {
     public String sendNotifications(SendNotifications sendNotifications) throws MessagingException {
 
         String emailAddress = sendNotifications.getEmailAddress();
+        String propertyInQuestion = sendNotifications.getPropertyInQuestion();
+
+        Properties properties = propertiesService.findPropertyByName(propertyInQuestion);
+        String propertyId = properties.getId();
+        DbPropetiesData propertyDetails = propertiesService.getAllPropertyDetails(propertyId);
 
         Context context = new Context();
+        context.setVariable("title", "Property Management Reminder.");
+        context.setVariable("content", "This is a reminder from the Property Management Application about the following issues.");
         context.setVariable("notifications", sendNotifications);
+        context.setVariable("propertyDetails", propertyDetails);
 
         String process = templateEngine.process("notifications", context);
         javax.mail.internet.MimeMessage mimeMessage = emailSender.createMimeMessage();

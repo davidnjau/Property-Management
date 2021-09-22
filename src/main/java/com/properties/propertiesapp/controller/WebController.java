@@ -10,8 +10,11 @@ import com.properties.propertiesapp.service_class.Impl.PropertiesServiceImpl;
 import com.properties.propertiesapp.service_class.Impl.ReceiptsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.context.Context;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,15 +36,20 @@ public class WebController {
     @Autowired
     private ExpensesServiceImpl expensesServiceImpl;
 
-    @RequestMapping(value ="/")
-    public ModelAndView getDashboard(){
+    @Autowired
+    private ReceiptsServiceImpl receiptsService;
+
+
+
+    @RequestMapping(value = "/")
+    public ModelAndView getDashboard() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
 
         DbExpensesResults dbExpensesResults = expensesServiceImpl.getAllAvailableExpenses();
         List<Expenses> expensesList = dbExpensesResults.getResults();
         List<DbExpensesData> dbExpensesDataList = new ArrayList<>();
 
-        for (int i = 0; i < expensesList.size(); i++){
+        for (int i = 0; i < expensesList.size(); i++) {
 
             String id = expensesList.get(i).getId();
             String propertyName = propertiesService.getPropertyById(
@@ -65,7 +73,7 @@ public class WebController {
 
         List<Receipts> receiptsList = receiptsServiceImpl.getAllReceipts();
         List<DbReceiptsData> dbReceiptsDataList = new ArrayList<>();
-        for(int i = 0; i < receiptsList.size(); i++){
+        for (int i = 0; i < receiptsList.size(); i++) {
 
             String id = receiptsList.get(i).getId();
             String propertyId = receiptsList.get(i).getPropertyId();
@@ -107,4 +115,40 @@ public class WebController {
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/property_details/{propertyId}", method = RequestMethod.GET)
+    public ModelAndView getCart(@PathVariable("propertyId") String propertyId) {
+
+        DbPropetiesData propertyDetails = propertiesService.getAllPropertyDetails(propertyId);
+
+        List<Receipts> receiptsList = receiptsService.getReceiptDetailsByPropertyId(propertyId);
+        List<Expenses> expenseList = expensesServiceImpl.getMyPropertyExpenses(propertyId).getResults();
+
+        double totalExpenseAmount = 0.0;
+        for (Expenses receipts : expenseList) {
+
+            Double amountPaid = receipts.getExpenseAmount();
+            totalExpenseAmount = totalExpenseAmount + amountPaid;
+        }
+        String totalReceipts = "Kshs " + totalExpenseAmount ;
+
+        double totalReceiptAmount = 0.0;
+        for (Receipts receipts : receiptsList) {
+
+            Double amountPaid = receipts.getAmountPaid();
+            totalReceiptAmount = totalReceiptAmount + amountPaid;
+        }
+        String totalExpenses = "Kshs " + totalReceiptAmount ;
+
+        PropertyInfo propertyInfo = new PropertyInfo(propertyDetails,receiptsList,expenseList,totalReceipts,totalExpenses);
+
+        ModelAndView modelAndView = new ModelAndView("property_details");
+        modelAndView.addObject("title", "Property Management.");
+        modelAndView.addObject("content", "A Property has been added under your account.");
+        modelAndView.addObject("propertyInfo", propertyInfo);
+
+        return modelAndView;
+
+    }
+
 }

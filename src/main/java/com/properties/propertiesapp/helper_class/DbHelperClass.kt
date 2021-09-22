@@ -107,3 +107,16 @@ data class SendNotifications(
 
 )
 
+data class NotificationsDetails(
+
+    var emailSubject: String,
+    var emailContent: String
+)
+
+data class PropertyInfo(
+    val propertyDetails: DbPropetiesData,
+    val receiptDetailsList: List<Receipts>,
+    val expensesDataList: List<Expenses>,
+    val totalExpenses: String,
+    val receiptsPaid: String
+)

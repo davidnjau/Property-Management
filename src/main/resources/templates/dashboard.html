@@ -937,11 +937,18 @@
 
 
                   <td>
-                    <button type="submit" class="btn btn-primary"
-                            data-toggle="modal"
-                            th:attr="onclick=|viewModel('${property.getId()}')|">
-                      View
-                    </button>
+
+                    <a class="btn btn-success text-white mt-2" href="/property_details"
+                       th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}">View</a>
+
+
+<!--                    <button type="submit" class="btn btn-primary"-->
+<!--                            data-toggle="modal"-->
+<!--                            th:attr="onclick=|viewModel('${property.getId()}')|">-->
+
+<!--                      View-->
+<!--                    </button>-->
+
 <!--                    <button type="submit" class="btn btn-primary"-->
 <!--                            data-toggle="modal"-->
 <!--                            th:attr="onclick=|viewEditModel('${property.getId()}')|">-->
@@ -1273,7 +1280,7 @@
 
         <div class="modal-footer">
           <input type="button" class="btn btn-default" th:onclick="dis()"  data-dismiss="modal" value="Cancel" id="disposeBtn">
-          <!--          <input type="submit" class="btn btn-info" value="Save">-->
+<!--          <input type="button" class="btn btn-info" value="View More" >-->
         </div>
       </form>
     </div>

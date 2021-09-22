@@ -47,7 +47,7 @@ public class ReceiptsServiceImpl implements ReceiptsService {
     }
 
     @Override
-    public Receipts getReceiptDetailsByPropertyId(String propertyId) {
+    public List<Receipts> getReceiptDetailsByPropertyId(String propertyId) {
         return receiptsRepository.findAllByPropertyId(propertyId);
     }
     

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ReceiptsRepository extends JpaRepository<Receipts, String> {
-    Receipts findAllByPropertyId(String propertyId);
+    List<Receipts> findAllByPropertyId(String propertyId);
 
 }

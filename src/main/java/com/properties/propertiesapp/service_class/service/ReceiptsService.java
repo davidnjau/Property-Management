@@ -8,5 +8,5 @@ public interface ReceiptsService {
     Receipts addReceipt(Receipts receipt);
     List<Receipts> getAllReceipts();
     Receipts getReceiptDetails(String id);
-    Receipts getReceiptDetailsByPropertyId(String propertyId);
+    List<Receipts> getReceiptDetailsByPropertyId(String propertyId);
 }
