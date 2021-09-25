@@ -39,6 +39,9 @@ public class PropertiesController {
     @RequestMapping(value = "/api/v1/properties/add_property", method = RequestMethod.POST)
     public ResponseEntity addProperty(@RequestBody Properties properties){
 
+
+
+
         Results addedProperties = propertiesServiceImpl.addProperty(properties);
         if (addedProperties != null){
 

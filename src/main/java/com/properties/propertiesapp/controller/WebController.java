@@ -144,7 +144,7 @@ public class WebController {
 
         ModelAndView modelAndView = new ModelAndView("property_details");
         modelAndView.addObject("title", "Property Management.");
-        modelAndView.addObject("content", "A Property has been added under your account.");
+        modelAndView.addObject("content", "Property Details.");
         modelAndView.addObject("propertyInfo", propertyInfo);
 
         return modelAndView;

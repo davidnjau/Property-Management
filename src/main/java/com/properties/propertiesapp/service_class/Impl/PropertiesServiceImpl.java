@@ -25,6 +25,12 @@ public class PropertiesServiceImpl implements PropertiesService {
     @Override
     public Results addProperty(Properties properties) {
 
+        /**
+         * Check if admin address exists
+         */
+
+
+
         try{
 
             Properties addedProperty = propertiesRepository.save(properties);
