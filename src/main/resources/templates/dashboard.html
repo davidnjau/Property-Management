@@ -718,7 +718,65 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-6 col-md-12">
+
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Property Details</h4>
+
+              <p class="card-category" th:text=" 'You have ' + ${propertyList.size()} + ' properties.'"> You have 5 properties</p>
+            </div>
+            <div class="card-body table-responsive">
+              <table id="tableTest" class="table table-hover">
+                <thead class="text-warning">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Rent (Kshs) </th>
+                <th>Location</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="property : ${propertyList}">
+                  <td>1</td>
+
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <td th:text="${property.getPropertyName()}">Name</td>
+                  <td th:text="${property.getPropertyRent()}">Rent</td>
+                  <td th:text="${property.getPropertyLocation()}">Location</td>
+
+
+
+                  <td>
+
+                    <a type="button" th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}" class="btn btn-primary"><i class="far fa-eye"></i></a>
+                    <a type="button" data-toggle="modal" th:attr="onclick=|viewModel('${property.getId()}')|" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                    <a type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+
+<!--                    <a class="btn btn-success text-white mt-2" href="/property_details"-->
+<!--                       th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}">View</a>-->
+
+
+<!--                                        <button type="submit" class="btn btn-primary"-->
+<!--                                                data-toggle="modal"-->
+<!--                                                th:attr="onclick=|viewModel('${property.getId()}')|">-->
+
+<!--                                          Delete-->
+<!--                                        </button>-->
+
+<!--                                        <button type="submit" class="btn btn-primary"-->
+<!--                                                data-toggle="modal"-->
+<!--                                                th:attr="onclick=|viewEditModel('${property.getId()}')|">-->
+<!--                                          Edit-->
+<!--                                        </button>-->
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
           <div class="card">
             <div class="card-header card-header-tabs card-header-primary">
               <div class="nav-tabs-navigation">
@@ -909,58 +967,6 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
-          <div class="card">
-            <div class="card-header card-header-warning">
-              <h4 class="card-title">Property Stats</h4>
-
-              <p class="card-category" th:text=" 'You have ' + ${propertyList.size()} + ' properties.'"> You have 5 properties</p>
-            </div>
-            <div class="card-body table-responsive">
-              <table class="table table-hover">
-                <thead class="text-warning">
-                <th>ID</th>
-                <th>Name</th>
-                <th>Rent (Kshs) </th>
-                <th>Location</th>
-                <th>Action</th>
-                </thead>
-                <tbody>
-                <tr th:each="property : ${propertyList}">
-                  <td>1</td>
-
-                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
-                  <td th:text="${property.getPropertyName()}">Name</td>
-                  <td th:text="${property.getPropertyRent()}">Rent</td>
-                  <td th:text="${property.getPropertyLocation()}">Location</td>
-
-
-
-                  <td>
-
-                    <a class="btn btn-success text-white mt-2" href="/property_details"
-                       th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}">View</a>
-
-
-<!--                    <button type="submit" class="btn btn-primary"-->
-<!--                            data-toggle="modal"-->
-<!--                            th:attr="onclick=|viewModel('${property.getId()}')|">-->
-
-<!--                      View-->
-<!--                    </button>-->
-
-<!--                    <button type="submit" class="btn btn-primary"-->
-<!--                            data-toggle="modal"-->
-<!--                            th:attr="onclick=|viewEditModel('${property.getId()}')|">-->
-<!--                      Edit-->
-<!--                    </button>-->
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="row">
@@ -1082,8 +1088,21 @@
       url: "/api/v1/properties/get_property/" + id,
       success: function(response) {
 
-        var html="";
-        html += '<table class="table" >';
+        let name = response.propertyName;
+
+        $("#tableTest tbody")
+                .append(
+                        "<tr>"+
+                        "<td><input value=name type='text'/></td>"+
+                        "<td><input type='text'/></td>"+
+                        "<td><input type='text'/></td>"+
+                        "<td><img src='images/disk.png' class='btnSave'>" +
+                        "<img src='images/delete.png' class='btnDelete'/></td>"+ "</tr>");
+        $(".btnSave").bind("click", Save); $(".btnDelete").bind("click", Delete);
+
+
+        // var html="";
+        // html += '<table class="table" >';
 
 
         // html += '<tr>';
@@ -1091,59 +1110,59 @@
         // html += '<td>'+response.id+'</td>';
         // html += '</tr>';
 
-        html += '<tr>';
-        html += '<td>'+"Property Name"+'</td>';
-        html += '<td>'+response.propertyName+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"Property Location"+'</td>';
-        html += '<td>'+response.propertyLocation+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"Property Rent Amount"+'</td>';
-        html += '<td>'+response.propertyRent+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"Property Due Date"+'</td>';
-        html += '<td>'+response.propertyOccupancyDate+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"VAT"+'</td>';
-        html += '<td>'+response.propertyVatStatus+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"Tenancy Period"+'</td>';
-        html += '<td>'+response.propertyTenancyPeriod+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"Property Land Lord Details"+'</td>';
-        html += '<td>'+response.propertyLandlordDetails+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"Incremental %"+'</td>';
-        html += '<td>'+response.incrementalPerc+'</td>';
-        html += '</tr>';
-
-        html += '<tr>';
-        html += '<td>'+"More Details"+'</td>';
-        html += '<td>'+response.propertyDetails+'</td>';
-        html += '</tr>';
-
-        html += '</table>';
-
-        $('.modal-content .modal-body').append(html)
-
-        // $('.modal-body').html(response);
-
-        // Display Modal
-        $('#exampleModalCenter').modal('show');
+        // html += '<tr>';
+        // html += '<td>'+"Property Name"+'</td>';
+        // html += '<td>'+response.propertyName+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"Property Location"+'</td>';
+        // html += '<td>'+response.propertyLocation+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"Property Rent Amount"+'</td>';
+        // html += '<td>'+response.propertyRent+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"Property Due Date"+'</td>';
+        // html += '<td>'+response.propertyOccupancyDate+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"VAT"+'</td>';
+        // html += '<td>'+response.propertyVatStatus+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"Tenancy Period"+'</td>';
+        // html += '<td>'+response.propertyTenancyPeriod+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"Property Land Lord Details"+'</td>';
+        // html += '<td>'+response.propertyLandlordDetails+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"Incremental %"+'</td>';
+        // html += '<td>'+response.incrementalPerc+'</td>';
+        // html += '</tr>';
+        //
+        // html += '<tr>';
+        // html += '<td>'+"More Details"+'</td>';
+        // html += '<td>'+response.propertyDetails+'</td>';
+        // html += '</tr>';
+        //
+        // html += '</table>';
+        //
+        // $('.modal-content .modal-body').append(html)
+        //
+        // // $('.modal-body').html(response);
+        //
+        // // Display Modal
+        // $('#exampleModalCenter').modal('show');
 
 
       }, error: function (error) {
