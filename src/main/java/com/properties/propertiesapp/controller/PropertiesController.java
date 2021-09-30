@@ -39,9 +39,6 @@ public class PropertiesController {
     @RequestMapping(value = "/api/v1/properties/add_property", method = RequestMethod.POST)
     public ResponseEntity addProperty(@RequestBody Properties properties){
 
-
-
-
         Results addedProperties = propertiesServiceImpl.addProperty(properties);
         if (addedProperties != null){
 
@@ -51,7 +48,6 @@ public class PropertiesController {
                 return new ResponseEntity(results, HttpStatus.OK);
             }else {
                 var results1 = results.toString();
-
                 return ResponseEntity.badRequest().body(new ErrorMessage(results1));
 
             }
@@ -96,6 +92,16 @@ public class PropertiesController {
 
             return new ResponseEntity(getProperties, HttpStatus.OK);
 
+        }else {
+            return ResponseEntity.badRequest().body(new ErrorMessage("Please try again."));
+        }
+    }
+    @RequestMapping(value = "/api/v1/properties/get-property-details/{property_id}", method = RequestMethod.GET)
+    public ResponseEntity getPropertyData(@PathVariable("property_id") String property_id){
+
+        Properties getProperties = propertiesServiceImpl.getAllPropertyDataPropertyDetail(property_id);
+        if (getProperties != null){
+            return new ResponseEntity(getProperties, HttpStatus.OK);
         }else {
             return ResponseEntity.badRequest().body(new ErrorMessage("Please try again."));
         }
@@ -265,10 +271,10 @@ public class PropertiesController {
         }
     }
 
-    @RequestMapping(value = "/api/v1/properties/update_property", method = RequestMethod.PUT)
-    public ResponseEntity updateUserDetails(@RequestBody Properties properties) throws UnsupportedEncodingException {
+    @RequestMapping(value = "/api/v1/properties/update_property/{propertyId}", method = RequestMethod.PUT)
+    public ResponseEntity updateUserDetails(@RequestBody Properties properties, @PathVariable("propertyId") String propertyId) throws UnsupportedEncodingException {
 
-        Properties cafeteriaMeals = propertiesServiceImpl.updateProperty(properties);
+        Properties cafeteriaMeals = propertiesServiceImpl.updateProperty(properties, propertyId);
         if (cafeteriaMeals != null){
             return new ResponseEntity(cafeteriaMeals, HttpStatus.OK);
         }else {

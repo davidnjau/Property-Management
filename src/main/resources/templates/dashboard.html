@@ -479,8 +479,6 @@
 <div class="modal" id="myAddPropertyModal">
 
   <!-- Modal Header -->
-
-
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
@@ -554,13 +552,13 @@
               </div>
             </div>
 
-            <div class="dropdown col-md-6">
+            <div id="selectedCombo" class="dropdown col-md-6">
 
               <select id="combo">
-                <option value="1">Monthly</option>
-                <option value="1">Quartely</option>
-                <option value="1">Half Yearly</option>
-                <option value="1">Yearly</option>
+                <option value="monthly">Monthly</option>
+                <option value="quartely">Quartely</option>
+                <option value="halfYearly">Half Yearly</option>
+                <option value="yearly">Yearly</option>
               </select>
 
             </div>
@@ -570,9 +568,7 @@
           <div class="row">
             <div class="dropdown col-md-6">
               <div>
-
-                <label> Select the date of occupancy </label>
-
+                <label> Select the date of occupancy: </label>
               </div>
             </div>
 
@@ -582,21 +578,25 @@
               </div>
             </div>
 
-
           </div>
 
 
           <div class="form-group">
             <div>
-              <button  class="btn btn-success" onclick="submitData()">
+              <button id="addBtn" class="btn btn-success" onclick="submitData()">
                 Add Property
+              </button>
+              <button id="updateBtn" class="btn btn-success" onclick="updateData()">
+                Update Property
               </button>
             </div>
           </div>
         </div>
       </div>
     </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+  </div>
+
+  <!-- /.modal-dialog -->
 
 
 </div>
@@ -729,7 +729,7 @@
             <div class="card-body table-responsive">
               <table id="tableTest" class="table table-hover">
                 <thead class="text-warning">
-                <th>ID</th>
+                <th>#</th>
                 <th>Name</th>
                 <th>Rent (Kshs) </th>
                 <th>Location</th>
@@ -737,19 +737,17 @@
                 </thead>
                 <tbody>
                 <tr th:each="property : ${propertyList}">
-                  <td>1</td>
+                  <td th:text="${propertyStat.index + 1}"></td>
 
                   <!--                  <td th:text="${property.propertyName()}">User</td>-->
                   <td th:text="${property.getPropertyName()}">Name</td>
                   <td th:text="${property.getPropertyRent()}">Rent</td>
                   <td th:text="${property.getPropertyLocation()}">Location</td>
 
-
-
                   <td>
 
                     <a type="button" th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}" class="btn btn-primary"><i class="far fa-eye"></i></a>
-                    <a type="button" data-toggle="modal" th:attr="onclick=|viewModel('${property.getId()}')|" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                    <a type="button" data-toggle="modal" data-target="#myAddPropertyModal" th:attr="onclick=|viewModel('${property.getId()}')|" class="btn btn-success"><i class="fas fa-edit"></i></a>
                     <a type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
 
 <!--                    <a class="btn btn-success text-white mt-2" href="/property_details"-->
@@ -1056,6 +1054,17 @@
 
 <script>
 
+
+
+  function addProps(){
+    document.getElementById("addBtn").style.display = "block";
+    document.getElementById("updateBtn").style.display = "none";
+  }
+  function updateProps(){
+    document.getElementById("addBtn").style.display = "none";
+    document.getElementById("updateBtn").style.display = "block";
+  }
+
   function viewEditModel(id){
 
     $.ajax({
@@ -1079,91 +1088,60 @@
 
   }
 
-
   function viewModel(id){
+
+    window.localStorage.setItem('propertyId', id);
+
+    dis();
+    updateProps();
 
     $.ajax({
 
       type: 'GET',
-      url: "/api/v1/properties/get_property/" + id,
+      url: "/api/v1/properties/get-property-details/" + id,
       success: function(response) {
 
-        let name = response.propertyName;
+        let propertyName = response.propertyName;
+        let propertyLocation = response.propertyLocation;
+        let propertyRent = response.propertyRentAmount;
+        let incrementalPerc = response.incrementalPerc;
+        let depositAmount = response.propertyDepositAmount;
+        let propertyTenancyPeriod = response.propertyTenancyPeriod;
+        let propertyLandlordDetails = response.propertyLandlordDetails;
+        let propertyDetails = response.propertyDetails;
+        let propertyOccupancyDate = response.propertyOccupancyDate;
+        let paymentSchedule = response.paymentSchedule;
+        let isVat = response.vat;
 
-        $("#tableTest tbody")
-                .append(
-                        "<tr>"+
-                        "<td><input value=name type='text'/></td>"+
-                        "<td><input type='text'/></td>"+
-                        "<td><input type='text'/></td>"+
-                        "<td><img src='images/disk.png' class='btnSave'>" +
-                        "<img src='images/delete.png' class='btnDelete'/></td>"+ "</tr>");
-        $(".btnSave").bind("click", Save); $(".btnDelete").bind("click", Delete);
+        if (isVat){
+          $("#checkboxVat").prop("checked", true);
+        }else {
+          $("#checkboxVat").prop("checked", false);
+        }
 
+        if (paymentSchedule === "Monthly"){
+          $("#combo").val("monthly").change();
+        }
+        if (paymentSchedule === "Quartely"){
+          $("#combo").val("quartely").change();
+        }
+        if (paymentSchedule === "Half Yearly"){
+          $("#combo").val("halfYearly").change();
+        }
+        if (paymentSchedule === "Yearly"){
+          $("#combo").val("yearly").change();
+        }
 
-        // var html="";
-        // html += '<table class="table" >';
+        $("#propertyName").val(propertyName);
+        $("#propertyLocation").val(propertyLocation);
+        $("#moreDetails").val(propertyDetails);
+        $("#landLordDetails").val(propertyLandlordDetails);
+        $("#incrementalPerc").val(incrementalPerc);
+        $("#depositAmount").val(depositAmount);
+        $("#rentAmount").val(propertyRent);
+        $("#tenancyPeriod").val(propertyTenancyPeriod);
 
-
-        // html += '<tr>';
-        // html += '<td>'+"id"+'</td>';
-        // html += '<td>'+response.id+'</td>';
-        // html += '</tr>';
-
-        // html += '<tr>';
-        // html += '<td>'+"Property Name"+'</td>';
-        // html += '<td>'+response.propertyName+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"Property Location"+'</td>';
-        // html += '<td>'+response.propertyLocation+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"Property Rent Amount"+'</td>';
-        // html += '<td>'+response.propertyRent+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"Property Due Date"+'</td>';
-        // html += '<td>'+response.propertyOccupancyDate+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"VAT"+'</td>';
-        // html += '<td>'+response.propertyVatStatus+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"Tenancy Period"+'</td>';
-        // html += '<td>'+response.propertyTenancyPeriod+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"Property Land Lord Details"+'</td>';
-        // html += '<td>'+response.propertyLandlordDetails+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"Incremental %"+'</td>';
-        // html += '<td>'+response.incrementalPerc+'</td>';
-        // html += '</tr>';
-        //
-        // html += '<tr>';
-        // html += '<td>'+"More Details"+'</td>';
-        // html += '<td>'+response.propertyDetails+'</td>';
-        // html += '</tr>';
-        //
-        // html += '</table>';
-        //
-        // $('.modal-content .modal-body').append(html)
-        //
-        // // $('.modal-body').html(response);
-        //
-        // // Display Modal
-        // $('#exampleModalCenter').modal('show');
-
+        $("#selectedDate").text(propertyOccupancyDate);
 
       }, error: function (error) {
         alert('error: ' + error);
@@ -1311,10 +1289,21 @@
 
 <script>
   function dis() {
-    $("#exampleModalCenter").on("hidden.bs.modal", function(){
-      $(".modal-body").html("");
-      location.reload();
-    }); }
+
+    $("#checkboxVat").prop("checked", false);
+
+    $("#propertyName").val("");
+    $("#propertyLocation").val("");
+    $("#moreDetails").val("");
+    $("#landLordDetails").val("");
+    $("#incrementalPerc").val("");
+    $("#depositAmount").val("");
+    $("#rentAmount").val("");
+    $("#tenancyPeriod").val("");
+    // $("#combo").val("");
+    // $('#occupationDate').val("");
+
+  }
 
   function submitData() {
     var propertyName = document.getElementById("propertyName").value;
@@ -1368,10 +1357,100 @@
 
         },
         error:function (error) {
+
+          let json = JSON.stringify(error.responseText);
+          let errorMessage = JSON.parse(json);
+
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Some fields have not yet been filled.',
+            text: errorMessage,
+          })
+
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+
+    }else {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Some fields have not yet been filled.',
+      })
+    }
+
+
+
+  }
+
+  function updateData() {
+    var propertyName = document.getElementById("propertyName").value;
+    var propertyLocation = document.getElementById("propertyLocation").value;
+    var moreDetails = document.getElementById("moreDetails").value;
+    var landLordDetails = document.getElementById("landLordDetails").value;
+    var incrementalPerc = document.getElementById("incrementalPerc").value;
+    var depositAmount = document.getElementById("depositAmount").value;
+    var tenancyPeriod = document.getElementById("tenancyPeriod").value;
+    var rentAmount = document.getElementById("rentAmount").value;
+    var atLeastOneIsChecked = $('input[name="chk[]"]:checked').length > 0;
+
+    var dropdownMenuButton = $('#combo :selected').text();
+    var occupationDate = document.getElementById("occupationDate").value;
+
+    console.log("-*-*-**-*-12 " + occupationDate)
+
+    if (
+            propertyName && propertyLocation && moreDetails &&
+            landLordDetails && incrementalPerc && depositAmount &&
+            tenancyPeriod && rentAmount && dropdownMenuButton
+    ){
+
+      // convert to JSON
+      var dataJson = {
+        "propertyName":propertyName,
+        "propertyLocation":propertyLocation,
+        "propertyDetails":moreDetails,
+        "propertyLandlordDetails":landLordDetails,
+        "paymentSchedule":dropdownMenuButton,
+        "propertyTenancyPeriod":tenancyPeriod,
+        "propertyRentAmount":rentAmount,
+        "incrementalPerc":incrementalPerc,
+        "propertyDepositAmount":depositAmount,
+        "isVat":atLeastOneIsChecked,
+        "propertyOccupancyDate":occupationDate
+      };
+
+      let propertyId = window.localStorage.getItem('propertyId');
+
+
+      var postData = JSON.stringify(dataJson);
+      //
+      console.log(postData)
+
+      // post data
+      $.ajax({
+        type: 'PUT',
+        url: '/api/v1/properties/update_property/'+propertyId,
+        data: postData, // or JSON.stringify ({name: 'jonas'}),
+        success: function(result) {
+          swal(
+                  'Successful Save',
+                  'Property has been updated successfully.',
+                  'success'
+          )
+
+        },
+        error:function (error) {
+
+          let json = JSON.stringify(error.responseText);
+          let errorMessage = JSON.parse(json);
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: errorMessage,
           })
 
         },
