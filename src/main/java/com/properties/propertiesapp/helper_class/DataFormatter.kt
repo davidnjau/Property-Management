@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 
 class DataFormatter {
 
-
     fun sendPropertyMail(
         emailService: EmailServiceImpl,
         addedProperty: Properties
