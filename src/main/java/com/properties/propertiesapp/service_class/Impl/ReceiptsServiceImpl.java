@@ -50,7 +50,18 @@ public class ReceiptsServiceImpl implements ReceiptsService {
     public List<Receipts> getReceiptDetailsByPropertyId(String propertyId) {
         return receiptsRepository.findAllByPropertyId(propertyId);
     }
-    
+
+    @Override
+    public void deleteReceipt(String receiptId) {
+        receiptsRepository.deleteById(receiptId);
+    }
+
+    @Override
+    public void deletePropertyReceipt(String propertyId) {
+        receiptsRepository.deleteByPropertyId(propertyId);
+    }
+
+
     public Receipts updateReceipts(Receipts receipts){
 
         Optional<Receipts> optionalProperties = receiptsRepository.findById(receipts.getId());

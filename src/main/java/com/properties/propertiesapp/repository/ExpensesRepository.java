@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ExpensesRepository extends JpaRepository<Expenses, String> {
     List<Expenses> findAllByPropertyId(String propertyId);
+    void deleteByPropertyId(String propertyId);
 
 }

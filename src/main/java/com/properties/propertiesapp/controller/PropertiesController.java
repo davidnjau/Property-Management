@@ -295,6 +295,10 @@ public class PropertiesController {
 
 
     }
+    @RequestMapping(value = "/api/v1/property/delete-property/{propertyId}", method = RequestMethod.DELETE)
+    public void deleteProperty(@PathVariable("propertyId") String propertyId) {
+        propertiesServiceImpl.deleteProperty(propertyId);
+    }
 
 
 

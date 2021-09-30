@@ -11,4 +11,5 @@ public interface PropertiesService {
     Properties getPropertyById(String id);
     Boolean checkPropertyByName(String propertyName);
     Properties findPropertyByName(String propertyName);
+    void deleteProperty(String propertyId);
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface ReceiptsRepository extends JpaRepository<Receipts, String> {
     List<Receipts> findAllByPropertyId(String propertyId);
-
+    void deleteByPropertyId(String propertyId);
 }

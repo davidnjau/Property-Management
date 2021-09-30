@@ -52,6 +52,16 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     }
 
+    @Override
+    public void deleteExpense(String expenseId) {
+        expensesRepository.deleteById(expenseId);
+    }
+
+    @Override
+    public void deletePropertyExpense(String propertyId) {
+        expensesRepository.deleteByPropertyId(propertyId);
+    }
+
     /**
      * Model
      */

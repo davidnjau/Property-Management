@@ -9,4 +9,6 @@ public interface ReceiptsService {
     List<Receipts> getAllReceipts();
     Receipts getReceiptDetails(String id);
     List<Receipts> getReceiptDetailsByPropertyId(String propertyId);
+    void deleteReceipt(String receiptId);
+    void deletePropertyReceipt(String propertyId);
 }

@@ -22,7 +22,13 @@ public class PropertiesServiceImpl implements PropertiesService {
     private PropertiesRepository propertiesRepository;
 
     @Autowired
+    private ReceiptsServiceImpl receiptsService;
+
+    @Autowired
     private EmailServiceImpl emailService;
+
+    @Autowired
+    private ExpensesServiceImpl expensesService;
 
     @Override
     public Results addProperty(Properties properties) {
@@ -118,6 +124,13 @@ public class PropertiesServiceImpl implements PropertiesService {
     @Override
     public Properties findPropertyByName(String propertyName) {
         return propertiesRepository.findAllByPropertyName(propertyName);
+    }
+
+    @Override
+    public void deleteProperty(String propertyId) {
+        receiptsService.deletePropertyReceipt(propertyId);
+        expensesService.deletePropertyExpense(propertyId);
+        propertiesRepository.deleteById(propertyId);
     }
 
     /**

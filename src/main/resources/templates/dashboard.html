@@ -748,7 +748,7 @@
 
                     <a type="button" th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}" class="btn btn-primary"><i class="far fa-eye"></i></a>
                     <a type="button" data-toggle="modal" data-target="#myAddPropertyModal" th:attr="onclick=|viewModel('${property.getId()}')|" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                    <a type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                    <a type="button" th:attr="onclick=|deleteProperty('${property.getId()}')|" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
 
 <!--                    <a class="btn btn-success text-white mt-2" href="/property_details"-->
 <!--                       th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}">View</a>-->
@@ -1088,6 +1088,26 @@
 
   }
 
+  function deleteProperty(id){
+    dis();
+    $.ajax({
+
+      type: 'DELETE',
+      url: "/api/v1/property/delete-property/" + id,
+      success: function(response) {
+        swal(
+                'Successful Delete',
+                'The property has been deleted alongside its expenses and receipts.',
+                'success'
+        )
+
+      }, error: function (error) {
+        alert('error: ' + error);
+      }
+
+    })
+
+  }
   function viewModel(id){
 
     window.localStorage.setItem('propertyId', id);
@@ -1398,8 +1418,6 @@
 
     var dropdownMenuButton = $('#combo :selected').text();
     var occupationDate = document.getElementById("occupationDate").value;
-
-    console.log("-*-*-**-*-12 " + occupationDate)
 
     if (
             propertyName && propertyLocation && moreDetails &&

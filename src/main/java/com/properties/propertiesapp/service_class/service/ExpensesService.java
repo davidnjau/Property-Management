@@ -10,6 +10,7 @@ public interface ExpensesService {
     List<Expenses> getAllExpenses();
     List<Expenses> getPropertyExpenses(String propertyId);
     Expenses getExpenseById(String expenseId);
-
+    void deleteExpense(String expenseId);
+    void deletePropertyExpense(String propertyId);
 
 }
