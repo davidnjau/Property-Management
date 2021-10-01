@@ -2,21 +2,22 @@ package com.properties.propertiesapp.service_class.Impl;
 
 import com.properties.propertiesapp.entity.Expenses;
 import com.properties.propertiesapp.entity.Properties;
-import com.properties.propertiesapp.helper_class.DbExpenses;
-import com.properties.propertiesapp.helper_class.DbExpensesData;
-import com.properties.propertiesapp.helper_class.DbExpensesResults;
-import com.properties.propertiesapp.helper_class.DbResults;
+import com.properties.propertiesapp.helper_class.*;
 import com.properties.propertiesapp.repository.ExpensesRepository;
 import com.properties.propertiesapp.service_class.service.ExpensesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+
 public class ExpensesServiceImpl implements ExpensesService {
 
     @Autowired
@@ -59,7 +60,12 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Override
     public void deletePropertyExpense(String propertyId) {
-        expensesRepository.deleteByPropertyId(propertyId);
+
+        List<Expenses> expenseList = getPropertyExpenses(propertyId);
+        if (!expenseList.isEmpty()){
+            expensesRepository.deleteByPropertyId(propertyId);
+        }
+
     }
 
     /**
@@ -143,6 +149,80 @@ public class ExpensesServiceImpl implements ExpensesService {
         }catch (Exception e){
             return null;
         }
+    }
+
+    public List<DbExpenseProperty> getExpenseProperty(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
+
+        List<DbExpenseProperty> dbExpensePropertyList = new ArrayList<>();
+        List<Properties> propertyList = propertiesServiceImpl.getAllProperty();
+        for (int i = 0; i < propertyList.size(); i++){
+
+            String propertyOccupancyDate = sdf.format(propertyList.get(i).getPropertyOccupancyDate());
+
+            boolean isVat = propertyList.get(i).isVat();
+            String propertyVatStatus = "";
+            if (isVat){
+                propertyVatStatus = "The property has a 16 % VAT.";
+            }else {
+                propertyVatStatus = "The property does not have any VAT.";
+            }
+            String propertyId = propertyList.get(i).getId();
+            String propertyName = propertyList.get(i).getPropertyName();
+            String propertyLocation = propertyList.get(i).getPropertyLocation();
+            String propertyDetails = propertyList.get(i).getPropertyDetails();
+            String propertyLandlordDetails = propertyList.get(i).getPropertyLandlordDetails();
+            String paymentSchedule = propertyList.get(i).getPaymentSchedule();
+            String propertyTenancyPeriod = propertyList.get(i).getPropertyTenancyPeriod() + " year(s)";
+            Double propertyRentAmount = propertyList.get(i).getPropertyRentAmount();
+            String rentAmount = propertyList.get(i).getPropertyRentAmount() + " Kshs";
+            Double incrementalPerc = propertyList.get(i).getIncrementalPerc();
+            String incrementalData = "";
+            if (incrementalPerc > 0){
+                incrementalData = "The property has an incremental percentage of " + incrementalPerc + " %. p.a.";
+            }else {
+                incrementalData = "The property does not have an incremental percentage";
+            }
+            String propertyDepositAmount = propertyList.get(i).getPropertyDepositAmount() + " Kshs";
+
+            List<Expenses> propertyExpenseList = getPropertyExpenses(propertyId);
+            if (!propertyExpenseList.isEmpty()){
+
+                DbPropetiesData dbPropetiesData = new DbPropetiesData(
+                        propertyId, propertyOccupancyDate, propertyVatStatus, propertyName, propertyLocation, propertyDetails,
+                        propertyLandlordDetails, paymentSchedule, propertyTenancyPeriod, rentAmount,propertyRentAmount,
+                        incrementalData, propertyDepositAmount);
+
+                List<DbExpensesData> dbExpensesDataList = new ArrayList<>();
+                for (int j = 0; j < propertyExpenseList.size(); j++){
+
+                    String id = propertyExpenseList.get(j).getId();
+                    String expenseName = propertyExpenseList.get(j).getExpenseName();
+                    Double expenseAmount = propertyExpenseList.get(j).getExpenseAmount();
+                    Date expenseDate = propertyExpenseList.get(j).getExpenseDate();
+                    String expenseType = propertyExpenseList.get(j).getExpenseType();
+
+                    String strDate = sdf.format(expenseDate);
+                    String newAmount = expenseAmount + " Kshs";
+
+                    DbExpensesData dbExpensesData = new DbExpensesData(id, propertyName, expenseName, newAmount, strDate, expenseType);
+                    dbExpensesDataList.add(dbExpensesData);
+
+                }
+
+                DbExpenseProperty dbExpenseProperty = new DbExpenseProperty(dbPropetiesData, dbExpensesDataList);
+                dbExpensePropertyList.add(dbExpenseProperty);
+
+            }
+
+
+
+
+        }
+
+        return dbExpensePropertyList;
+
     }
 
 }

@@ -8,12 +8,14 @@ import com.properties.propertiesapp.service_class.service.ReceiptsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
 @Service
+@Transactional
 public class ReceiptsServiceImpl implements ReceiptsService {
 
     @Autowired
@@ -58,7 +60,18 @@ public class ReceiptsServiceImpl implements ReceiptsService {
 
     @Override
     public void deletePropertyReceipt(String propertyId) {
-        receiptsRepository.deleteByPropertyId(propertyId);
+
+        List<Receipts> receiptList = getReceiptDetailsByPropertyId(propertyId);
+        if (!receiptList.isEmpty()){
+            for (int i = 0; i < receiptList.size(); i++){
+
+                System.out.println("-*-*1- " + receiptList.get(i).getPropertyId());
+
+            }
+            receiptsRepository.deleteAllByPropertyId(propertyId);
+
+        }
+
     }
 
 
@@ -334,6 +347,74 @@ public class ReceiptsServiceImpl implements ReceiptsService {
         }
 
         return monthName;
+    }
+
+    public List<DBReceiptProperty> getPropertyReceipts(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy");
+
+        List<DBReceiptProperty> dbReceiptPropertyList = new ArrayList<>();
+        List<Properties> propertyList = propertiesServiceImpl.getAllProperty();
+        for (int i = 0; i < propertyList.size(); i++){
+
+            String propertyOccupancyDate = sdf.format(propertyList.get(i).getPropertyOccupancyDate());
+
+            boolean isVat = propertyList.get(i).isVat();
+            String propertyVatStatus = "";
+            if (isVat){
+                propertyVatStatus = "The property has a 16 % VAT.";
+            }else {
+                propertyVatStatus = "The property does not have any VAT.";
+            }
+            String propertyId = propertyList.get(i).getId();
+            String propertyName = propertyList.get(i).getPropertyName();
+            String propertyLocation = propertyList.get(i).getPropertyLocation();
+            String propertyDetails = propertyList.get(i).getPropertyDetails();
+            String propertyLandlordDetails = propertyList.get(i).getPropertyLandlordDetails();
+            String paymentSchedule = propertyList.get(i).getPaymentSchedule();
+            String propertyTenancyPeriod = propertyList.get(i).getPropertyTenancyPeriod() + " year(s)";
+            Double propertyRentAmount = propertyList.get(i).getPropertyRentAmount();
+            String rentAmount = propertyList.get(i).getPropertyRentAmount() + " Kshs";
+            Double incrementalPerc = propertyList.get(i).getIncrementalPerc();
+            String incrementalData = "";
+            if (incrementalPerc > 0){
+                incrementalData = "The property has an incremental percentage of " + incrementalPerc + " %. p.a.";
+            }else {
+                incrementalData = "The property does not have an incremental percentage";
+            }
+            String propertyDepositAmount = propertyList.get(i).getPropertyDepositAmount() + " Kshs";
+
+            List<Receipts> receiptList = getReceiptDetailsByPropertyId(propertyId);
+            if (!receiptList.isEmpty()){
+                DbPropetiesData dbPropetiesData = new DbPropetiesData(
+                        propertyId, propertyOccupancyDate, propertyVatStatus, propertyName, propertyLocation, propertyDetails,
+                        propertyLandlordDetails, paymentSchedule, propertyTenancyPeriod, rentAmount,propertyRentAmount,
+                        incrementalData, propertyDepositAmount);
+
+                //Get receipts
+                List<DbReceiptsData> dbReceiptsDataList = new ArrayList<>();
+
+                for (int j = 0; j < receiptList.size(); j++){
+
+                    String id = receiptList.get(j).getId();
+                    String amountPaid = receiptList.get(j).getAmountPaid() + " Kshs";
+                    String referenceNo = receiptList.get(j).getReceiptReference();
+                    String datePaid = sdf.format(receiptList.get(j).getDatePaid());
+
+                    DbReceiptsData dbReceiptsData = new DbReceiptsData(id, propertyName, referenceNo, amountPaid, datePaid);
+                    dbReceiptsDataList.add(dbReceiptsData);
+
+                }
+
+                DBReceiptProperty dbReceiptProperty = new DBReceiptProperty(dbPropetiesData, dbReceiptsDataList);
+                dbReceiptPropertyList.add(dbReceiptProperty);
+            }
+
+
+        }
+
+        return dbReceiptPropertyList;
+
     }
 
 }

@@ -103,6 +103,8 @@ public class WebController {
             propertyNameList.add(propertyName);
         }
 
+        List<DBReceiptProperty> dbReceiptPropertyList = receiptsServiceImpl.getPropertyReceipts();
+        List<DbExpenseProperty> dbExpensePropertyList = expensesServiceImpl.getExpenseProperty();
 
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("propertyList", propertyList);
@@ -110,6 +112,8 @@ public class WebController {
         modelAndView.addObject("receiptsList", dbReceiptsDataList);
         modelAndView.addObject("noticeList", noticeList);
         modelAndView.addObject("rentPaidList", rentPaidList);
+        modelAndView.addObject("dbReceiptPropertyList", dbReceiptPropertyList);
+        modelAndView.addObject("dbExpensePropertyList", dbExpensePropertyList);
         modelAndView.addObject("overDueList", overDueList);
         modelAndView.addObject("expensesList", dbExpensesDataList);
 

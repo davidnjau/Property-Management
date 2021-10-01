@@ -91,6 +91,18 @@ data class DbReceiptsData(
     val datePaid: String
 )
 
+data class DBReceiptProperty(
+
+    val properties: DbPropetiesData,
+    val receiptList : List<DbReceiptsData>
+
+)
+
+data class DbExpenseProperty(
+    val properties: DbPropetiesData,
+    val expenseList : List<DbExpensesData>
+)
+
 data class SendNotifications(
 
     @JsonProperty("emailAddress")
