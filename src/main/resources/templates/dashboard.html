@@ -752,7 +752,7 @@
 
                   <td>
 
-                    <a type="button" th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}" class="btn btn-primary"><i class="far fa-eye"></i></a>
+                    <a type="button" target="_blank" th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}" class="btn btn-primary"><i class="far fa-eye"></i></a>
                     <a type="button" data-toggle="modal" data-target="#myAddPropertyModal" th:attr="onclick=|viewModel('${property.getId()}')|" class="btn btn-success"><i class="fas fa-edit"></i></a>
                     <a type="button" th:attr="onclick=|deleteProperty('${property.getId()}')|" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
 
@@ -1301,7 +1301,7 @@
     <div class="modal-content">
       <form>
         <div class="modal-header">
-          <h4 class="modal-title">Property Details</h4>
+          <h4 class="modal-title">Details</h4>
           <!--          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
         </div>
 
@@ -1396,11 +1396,14 @@
         url: '/api/v1/properties/add_property',
         data: postData, // or JSON.stringify ({name: 'jonas'}),
         success: function(result) {
+
           swal(
                   'Successful Save',
                   'The receipt has been saved successfully.',
                   'success'
           )
+
+          refreshPage();
 
         },
         error:function (error) {
@@ -1413,7 +1416,7 @@
             title: 'Oops...',
             text: errorMessage,
           })
-
+          refreshPage();
         },
         contentType: "application/json",
         dataType: 'json'
@@ -1829,6 +1832,11 @@
   }
 
   function refreshPage(){
+
+    setInterval(f, 3000);
+
+  }
+  function f() {
     location.reload();
   }
 

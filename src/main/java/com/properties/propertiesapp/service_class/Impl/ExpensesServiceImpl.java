@@ -6,6 +6,10 @@ import com.properties.propertiesapp.helper_class.*;
 import com.properties.propertiesapp.repository.ExpensesRepository;
 import com.properties.propertiesapp.service_class.service.ExpensesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -37,7 +41,7 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Override
     public List<Expenses> getAllExpenses() {
-        return expensesRepository.findAll();
+        return findPaginatedExpenses();
     }
 
     @Override
@@ -216,12 +220,21 @@ public class ExpensesServiceImpl implements ExpensesService {
 
             }
 
-
-
-
         }
 
         return dbExpensePropertyList;
+
+    }
+
+    public List<Expenses> findPaginatedExpenses(){
+
+        int pageSize = 10;
+        String sortPageField = "";
+        sortPageField = "createdAt";
+        Sort sort = Sort.by(sortPageField).descending();
+        Pageable pageable = PageRequest.of(0, pageSize, sort);
+        Page<Expenses> expensesPage = expensesRepository.findAll(pageable);
+        return expensesPage.getContent();
 
     }
 

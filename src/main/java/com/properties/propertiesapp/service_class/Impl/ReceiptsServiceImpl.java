@@ -30,6 +30,9 @@ public class ReceiptsServiceImpl implements ReceiptsService {
     @Autowired
     private EmailServiceImpl emailService;
 
+    @Autowired
+    public ConfigurationsServiceImpl configurationsServiceImpl;
+
     @Override
     public Receipts addReceipt(Receipts receipt) {
         return receiptsRepository.save(receipt);
@@ -135,8 +138,11 @@ public class ReceiptsServiceImpl implements ReceiptsService {
             String propertyName = propertiesService.getPropertyById(propertyId).getPropertyName();
             DbReceiptsData dbReceiptsData = new DbReceiptsData("", propertyName, referenceNumber, rentAmount.toString(), datePaid.toString());
 
-            DataFormatter dataFormatter = new DataFormatter();
-            dataFormatter.sendReceiptMail(emailService,dbReceiptsData);
+            String adminEmailAddress = configurationsServiceImpl.getAdminEmailAddress();
+            if (adminEmailAddress != null){
+                DataFormatter dataFormatter = new DataFormatter();
+                dataFormatter.sendReceiptMail(emailService,dbReceiptsData);
+            }
 
         }
 

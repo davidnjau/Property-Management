@@ -48,7 +48,7 @@ public class PropertiesController {
                 return new ResponseEntity(results, HttpStatus.OK);
             }else {
                 var results1 = results.toString();
-                return ResponseEntity.badRequest().body(new ErrorMessage(results1));
+                return ResponseEntity.badRequest().body(results1);
 
             }
 

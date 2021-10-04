@@ -5,6 +5,9 @@ import com.properties.propertiesapp.helper_class.*;
 import com.properties.propertiesapp.repository.PropertiesRepository;
 import com.properties.propertiesapp.service_class.service.PropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,9 @@ public class PropertiesServiceImpl implements PropertiesService {
     @Autowired
     private ExpensesServiceImpl expensesService;
 
+    @Autowired
+    public ConfigurationsServiceImpl configurationsServiceImpl;
+
     @Override
     public Results addProperty(Properties properties) {
 
@@ -40,10 +46,18 @@ public class PropertiesServiceImpl implements PropertiesService {
         try{
 
             Properties addedProperty = propertiesRepository.save(properties);
-            DataFormatter dataFormatter = new DataFormatter();
-            dataFormatter.sendPropertyMail(emailService,addedProperty);
 
-            return new Results(200, addedProperty);
+            String adminEmailAddress = configurationsServiceImpl.getAdminEmailAddress();
+            if (adminEmailAddress != null){
+                DataFormatter dataFormatter = new DataFormatter();
+                dataFormatter.sendPropertyMail(emailService,addedProperty);
+
+                return new Results(200, addedProperty);
+            }else {
+                return new Results(400, "Property has been saved but email has not been sent. Go to configurations and add an admin email address.");
+            }
+
+
 
         }catch (Exception e){
 
@@ -105,7 +119,8 @@ public class PropertiesServiceImpl implements PropertiesService {
 
     @Override
     public List<Properties> getAllProperty() {
-        return propertiesRepository.findAll(Sort.by(Sort.Direction.ASC, "propertyName"));
+        return findPaginatedProperties();
+//        return propertiesRepository.findAll(Sort.by(Sort.Direction.ASC, "propertyName"));
     }
 
     @Override
@@ -244,5 +259,16 @@ public class PropertiesServiceImpl implements PropertiesService {
         return getPropertyById(propertyId);
     }
 
+    public List<Properties> findPaginatedProperties(){
+
+        int pageSize = 10;
+        String sortPageField = "";
+        sortPageField = "createdAt";
+        Sort sort = Sort.by(sortPageField).descending();
+        Pageable pageable = PageRequest.of(0, pageSize, sort);
+        Page<Properties> productsPage = propertiesRepository.findAll(pageable);
+        return productsPage.getContent();
+
+    }
 
 }
