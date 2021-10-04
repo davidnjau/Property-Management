@@ -35,6 +35,9 @@ public class Receipts {
 
     private Double amountPaid;
 
+    @Column(name = "receiptDetails", length = 512)
+    private String receiptDetails;
+
     private String receiptReference;
 
     private Double rentAmount;
@@ -44,9 +47,10 @@ public class Receipts {
     public Receipts() {
     }
 
-    public Receipts(String propertyId, Double amountPaid, String receiptReference, Double rentAmount, Date datePaid) {
+    public Receipts(String propertyId, Double amountPaid, String receiptDetails, String receiptReference, Double rentAmount, Date datePaid) {
         this.propertyId = propertyId;
         this.amountPaid = amountPaid;
+        this.receiptDetails = receiptDetails;
         this.receiptReference = receiptReference;
         this.rentAmount = rentAmount;
         this.datePaid = datePaid;
@@ -92,6 +96,14 @@ public class Receipts {
         this.amountPaid = amountPaid;
     }
 
+    public String getReceiptDetails() {
+        return receiptDetails;
+    }
+
+    public void setReceiptDetails(String receiptDetails) {
+        this.receiptDetails = receiptDetails;
+    }
+
     public String getReceiptReference() {
         return receiptReference;
     }
@@ -115,5 +127,4 @@ public class Receipts {
     public void setDatePaid(Date datePaid) {
         this.datePaid = datePaid;
     }
-
 }

@@ -31,15 +31,12 @@
   <link rel="stylesheet" type="text/css" th:href="@{/assets/css/sms.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/assets/css/stepper.css}" />
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </head>
 
 <body class="">
 
 <!-- The Modal -->
-<div class="modal" id="addPaymentReceipts" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="addPaymentReceipts">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -62,11 +59,6 @@
           <div class="form-group">
             <div>
               <textarea class="form-control" placeholder="Receipt Reference No" id="referenceNo" rows="1" required></textarea>
-            </div>
-          </div>
-          <div class="form-group">
-            <div>
-              <textarea class="form-control" placeholder="Receipt Details" id="receiptDetails" rows="1" required></textarea>
             </div>
           </div>
 
@@ -112,7 +104,7 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button type="submit" class="btn btn-success" onclick="submitReceiptData()" data-dismiss="modal">
+                <button type="submit" class="btn btn-success" onclick="submitReceiptData()" >
                   Add Receipt Info
                 </button>
               </div>
@@ -124,12 +116,14 @@
         </div>
       </div>
 
+
+
     </div>
   </div>
 </div>
 
 <!--Utilities deposit-->
-<div class="modal" id="addUtilitiesExpenses" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="addUtilitiesExpenses">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -199,7 +193,7 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button class="btn btn-success" onclick="submitUtilityExpense()" data-dismiss="modal">
+                <button class="btn btn-success" onclick="submitUtilityExpense()" >
                   Save
                 </button>
               </div>
@@ -218,7 +212,7 @@
 </div>
 
 <!-- Notify-->
-<div class="modal" id="sendNotifications" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="sendNotifications">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -279,7 +273,7 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button class="btn btn-success" onclick="sendNotification()" data-dismiss="modal">
+                <button class="btn btn-success" onclick="sendNotification()" >
                   Save
                 </button>
               </div>
@@ -298,7 +292,7 @@
 </div>
 
 <!-- Configurations-->
-<div class="modal" id="addConfigurations" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="addConfigurations">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -326,7 +320,7 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button class="btn btn-success" onclick="submitConfigurations()" data-dismiss="modal">
+                <button class="btn btn-success" onclick="submitConfigurations()" >
                   Save
                 </button>
               </div>
@@ -345,7 +339,7 @@
 </div>
 
 <!--Utilities deposit-->
-<div class="modal" id="addExtraExpenses" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="addExtraExpenses">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -414,7 +408,7 @@
           <div class="modal-footer">
             <div class="form-group">
               <div>
-                <button class="btn btn-success" onclick="submitExtraExpense()" data-dismiss="modal">
+                <button class="btn btn-success" onclick="submitExtraExpense()" >
                   Save
                 </button>
               </div>
@@ -433,7 +427,7 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -482,9 +476,11 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal" id="myAddPropertyModal" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="myAddPropertyModal">
 
   <!-- Modal Header -->
+
+
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
@@ -558,13 +554,13 @@
               </div>
             </div>
 
-            <div id="selectedCombo" class="dropdown col-md-6">
+            <div class="dropdown col-md-6">
 
               <select id="combo">
-                <option value="monthly">Monthly</option>
-                <option value="quartely">Quartely</option>
-                <option value="halfYearly">Half Yearly</option>
-                <option value="yearly">Yearly</option>
+                <option value="1">Monthly</option>
+                <option value="1">Quartely</option>
+                <option value="1">Half Yearly</option>
+                <option value="1">Yearly</option>
               </select>
 
             </div>
@@ -574,7 +570,9 @@
           <div class="row">
             <div class="dropdown col-md-6">
               <div>
-                <label> Select the date of occupancy: </label>
+
+                <label> Select the date of occupancy </label>
+
               </div>
             </div>
 
@@ -584,25 +582,21 @@
               </div>
             </div>
 
+
           </div>
 
 
           <div class="form-group">
             <div>
-              <button id="addBtn" class="btn btn-success" onclick="submitData()" data-dismiss="modal">
+              <button  class="btn btn-success" onclick="submitData()">
                 Add Property
-              </button>
-              <button id="updateBtn" class="btn btn-success" onclick="updateData()" data-dismiss="modal">
-                Update Property
               </button>
             </div>
           </div>
         </div>
       </div>
     </div><!-- /.modal-content -->
-  </div>
-
-  <!-- /.modal-dialog -->
+  </div><!-- /.modal-dialog -->
 
 
 </div>
@@ -724,47 +718,7 @@
       </div>
 
       <div class="row">
-
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header card-header-warning">
-              <h4 class="card-title">Property Details</h4>
-
-              <p class="card-category" th:text=" 'You have ' + ${propertyList.size()} + ' properties.'"> You have 5 properties</p>
-            </div>
-            <div class="card-body table-responsive">
-              <table id="tableTest" class="table table-hover">
-                <thead class="text-warning">
-                <th>#</th>
-                <th>Name</th>
-                <th>Rent (Kshs) </th>
-                <th>Location</th>
-                <th>Action</th>
-                </thead>
-                <tbody>
-                <tr th:each="property : ${propertyList}">
-                  <td th:text="${propertyStat.index + 1}"></td>
-
-                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
-                  <td th:text="${property.getPropertyName()}">Name</td>
-                  <td th:text="${property.getPropertyRent()}">Rent</td>
-                  <td th:text="${property.getPropertyLocation()}">Location</td>
-
-                  <td>
-
-                    <a type="button" th:href="@{property_details/{propertyId}(propertyId=${property.getId()})}" class="btn btn-primary"><i class="far fa-eye"></i></a>
-                    <a type="button" data-toggle="modal" data-target="#myAddPropertyModal" th:attr="onclick=|viewModel('${property.getId()}')|" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                    <a type="button" th:attr="onclick=|deleteProperty('${property.getId()}')|" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
-
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12">
+        <div class="col-lg-6 col-md-12">
           <div class="card">
             <div class="card-header card-header-tabs card-header-primary">
               <div class="nav-tabs-navigation">
@@ -955,6 +909,51 @@
           </div>
         </div>
 
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Property Stats</h4>
+
+              <p class="card-category" th:text=" 'You have ' + ${propertyList.size()} + ' properties.'"> You have 5 properties</p>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Rent (Kshs) </th>
+                <th>Location</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="property : ${propertyList}">
+                  <td>1</td>
+
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <td th:text="${property.getPropertyName()}">Name</td>
+                  <td th:text="${property.getPropertyRent()}">Rent</td>
+                  <td th:text="${property.getPropertyLocation()}">Location</td>
+
+
+
+                  <td>
+                    <button type="submit" class="btn btn-primary"
+                            data-toggle="modal"
+                            th:attr="onclick=|viewModel('${property.getId()}')|">
+                      View
+                    </button>
+                    <!--                    <button type="submit" class="btn btn-primary"-->
+                    <!--                            data-toggle="modal"-->
+                    <!--                            th:attr="onclick=|viewEditModel('${property.getId()}')|">-->
+                    <!--                      Edit-->
+                    <!--                    </button>-->
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="row">
@@ -963,130 +962,73 @@
             <div class="card-header card-header-warning">
               <h4 class="card-title">Payment Receipts</h4>
             </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                <th>ID</th>
+                <th>Receipt No</th>
+                <th>Amount Paid (Kshs) </th>
+                <th>Date Paid</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="receipts : ${receiptsList}">
+                  <td>1</td>
 
-            <div class="m-4">
-              <div class="m-4">
-                <div class="accordion" id="myAccordion">
-                  <div class="accordion-item" th:each="propertyReceipt, iterStat  : ${dbReceiptPropertyList}">
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <td th:text="${receipts.getReceiptReference()}">Name</td>
+                  <td th:text="${receipts.getRentAmount()}">Rent</td>
+                  <td th:text="${receipts.getDatePaid()}">Location</td>
 
-                    <div class="accordion-header" id="headingOne" >
-                      <button
-                              type="button"
-                              class="accordion-button collapsed"
-                              data-bs-toggle="collapse"
-                              data-toggle="collapse"
-                              th:text="${propertyReceipt.getProperties().getPropertyName()}"
-                              th:data-target="|.receipt${iterStat.count}|"></button>
-                    </div>
-
-                    <div th:class="|accordian-body collapse receipt${iterStat.count}|" data-bs-parent="#myAccordion">
-                      <div class="card-body">
-
-                        <div class="card-body table-responsive">
-                          <table class="table table-hover">
-                            <thead class="text-warning">
-                            <th>#</th>
-                            <th>Receipt</th>
-                            <th>Paid Amnt</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                            </thead>
-                            <tbody th:each="receipts : ${propertyReceipt.receiptList}">
-                            <tr>
-                              <td th:text="${receiptsStat.index + 1}" >1</td>
-                              <td th:text="${receipts.getReceiptReference()}">Name</td>
-                              <td th:text="${receipts.getRentAmount()}">Rent</td>
-                              <td th:text="${receipts.getDatePaid()}">Location</td>
-
-                              <td>
-                                <button type="submit" class="btn btn-primary"
-                                        data-toggle="modal"
-                                        th:attr="onclick=|viewPaymentReceipts('${receipts.getId()}')|">View</button>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
-
-
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
+                  <td>
+                    <button type="submit" class="btn btn-primary"
+                            data-toggle="modal"
+                            th:attr="onclick=|viewPaymentReceipts('${receipts.getId()}')|"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
-
-
           </div>
         </div>
-
         <div class="col-lg-6 col-md-12">
           <div class="card">
             <div class="card-header card-header-warning">
               <h4 class="card-title">Expenses</h4>
             </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                <th>ID</th>
+                <th>Expense Name</th>
+                <th>Expense Amount </th>
+                <th>Property Name</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="expenses : ${expensesList}">
+                  <td>1</td>
 
-            <div class="m-4">
+                  <!--                  <td th:text="${property.propertyName()}">User</td>-->
+                  <td th:text="${expenses.getExpenseName()}">Name</td>
+                  <td th:text="${expenses.getExpenseAmount()}">Rent</td>
+                  <td th:text="${expenses.getPropertyName()}">Location</td>
 
-              <div class="m-4">
-                <div class="accordion" id="myExpenseAccordion">
-                  <div class="accordion-item" th:each="propertyExpense, iterStat  : ${dbExpensePropertyList}">
-
-                    <div class="accordion-header" id="headingTwo" >
-                      <button
-                              type="button"
-                              class="accordion-button collapsed"
-                              data-bs-toggle="collapse"
-                              data-toggle="collapse"
-                              th:text="${propertyExpense.getProperties().getPropertyName()}"
-                              th:data-target="|.expense${iterStat.count}|"></button>
-                    </div>
-
-                    <div th:class="|accordian-body collapse expense${iterStat.count}|" data-bs-parent="#myExpenseAccordion">
-                      <div class="card-body">
-
-                        <div class="card-body table-responsive">
-                          <table class="table table-hover">
-                            <thead class="text-warning">
-                            <th>#</th>
-                            <th>Expense</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                            </thead>
-                            <tbody th:each="expenses : ${propertyExpense.expenseList}">
-                            <tr>
-                              <td th:text="${expensesStat.index + 1}" >1</td>
-                              <td th:text="${expenses.getExpenseName()}">Name</td>
-                              <td th:text="${expenses.getExpenseAmount()}">Rent</td>
-                              <td th:text="${expenses.getExpenseDate()}">Location</td>
-
-                              <td>
-                                <button type="submit" class="btn btn-primary"
-                                        data-toggle="modal"
-                                        th:attr="onclick=|viewExpenses('${expenses.getId()}')|">View</button>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
-
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-
+                  <td>
+                    <button type="submit" class="btn btn-primary"
+                            data-toggle="modal"
+                            th:attr="onclick=|viewExpenses('${expenses.getId()}')|"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
-
-
-
           </div>
         </div>
 
@@ -1126,58 +1068,75 @@
 
   function viewModel(id){
 
-    window.localStorage.setItem('propertyId', id);
-
-    dis();
-    updateProps();
-
     $.ajax({
 
       type: 'GET',
-      url: "/api/v1/properties/get-property-details/" + id,
+      url: "/api/v1/properties/get_property/" + id,
       success: function(response) {
 
-        let propertyName = response.propertyName;
-        let propertyLocation = response.propertyLocation;
-        let propertyRent = response.propertyRentAmount;
-        let incrementalPerc = response.incrementalPerc;
-        let depositAmount = response.propertyDepositAmount;
-        let propertyTenancyPeriod = response.propertyTenancyPeriod;
-        let propertyLandlordDetails = response.propertyLandlordDetails;
-        let propertyDetails = response.propertyDetails;
-        let propertyOccupancyDate = response.propertyOccupancyDate;
-        let paymentSchedule = response.paymentSchedule;
-        let isVat = response.vat;
+        var html="";
+        html += '<table class="table" >';
 
-        if (isVat){
-          $("#checkboxVat").prop("checked", true);
-        }else {
-          $("#checkboxVat").prop("checked", false);
-        }
 
-        if (paymentSchedule === "Monthly"){
-          $("#combo").val("monthly").change();
-        }
-        if (paymentSchedule === "Quartely"){
-          $("#combo").val("quartely").change();
-        }
-        if (paymentSchedule === "Half Yearly"){
-          $("#combo").val("halfYearly").change();
-        }
-        if (paymentSchedule === "Yearly"){
-          $("#combo").val("yearly").change();
-        }
+        // html += '<tr>';
+        // html += '<td>'+"id"+'</td>';
+        // html += '<td>'+response.id+'</td>';
+        // html += '</tr>';
 
-        $("#propertyName").val(propertyName);
-        $("#propertyLocation").val(propertyLocation);
-        $("#moreDetails").val(propertyDetails);
-        $("#landLordDetails").val(propertyLandlordDetails);
-        $("#incrementalPerc").val(incrementalPerc);
-        $("#depositAmount").val(depositAmount);
-        $("#rentAmount").val(propertyRent);
-        $("#tenancyPeriod").val(propertyTenancyPeriod);
+        html += '<tr>';
+        html += '<td>'+"Property Name"+'</td>';
+        html += '<td>'+response.propertyName+'</td>';
+        html += '</tr>';
 
-        $("#selectedDate").text(propertyOccupancyDate);
+        html += '<tr>';
+        html += '<td>'+"Property Location"+'</td>';
+        html += '<td>'+response.propertyLocation+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Property Rent Amount"+'</td>';
+        html += '<td>'+response.propertyRent+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Property Due Date"+'</td>';
+        html += '<td>'+response.propertyOccupancyDate+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"VAT"+'</td>';
+        html += '<td>'+response.propertyVatStatus+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Tenancy Period"+'</td>';
+        html += '<td>'+response.propertyTenancyPeriod+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Property Land Lord Details"+'</td>';
+        html += '<td>'+response.propertyLandlordDetails+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"Incremental %"+'</td>';
+        html += '<td>'+response.incrementalPerc+'</td>';
+        html += '</tr>';
+
+        html += '<tr>';
+        html += '<td>'+"More Details"+'</td>';
+        html += '<td>'+response.propertyDetails+'</td>';
+        html += '</tr>';
+
+        html += '</table>';
+
+        $('.modal-content .modal-body').append(html)
+
+        // $('.modal-body').html(response);
+
+        // Display Modal
+        $('#exampleModalCenter').modal('show');
+
 
       }, error: function (error) {
         alert('error: ' + error);
@@ -1290,13 +1249,12 @@
 
     })
 
-
   }
 
 
 </script>
 
-<div id="exampleModalCenter" data-toggle="modal" data-backdrop="static" data-keyboard="false"  role="dialog" class="modal fade">
+<div id="exampleModalCenter" data-backdrop="static" data-keyboard="false"  role="dialog" class="modal fade">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form>
@@ -1311,7 +1269,7 @@
         </div>
 
         <div class="modal-footer">
-          <input type="button" class="btn btn-default" th:onclick="destroyModal()"  data-dismiss="modal" value="Cancel" id="disposeBtn">
+          <input type="button" class="btn btn-default" th:onclick="dis()"  data-dismiss="modal" value="Cancel" id="disposeBtn">
           <!--          <input type="submit" class="btn btn-info" value="Save">-->
         </div>
       </form>
@@ -1320,37 +1278,11 @@
 </div>
 
 <script>
-
-  addProps();
-
   function dis() {
-
-    $("#checkboxVat").prop("checked", false);
-
-    $("#propertyName").val("");
-    $("#propertyLocation").val("");
-    $("#moreDetails").val("");
-    $("#landLordDetails").val("");
-    $("#incrementalPerc").val("");
-    $("#depositAmount").val("");
-    $("#rentAmount").val("");
-    $("#tenancyPeriod").val("");
-    // $("#combo").val("");
-    // $('#occupationDate').val("");
-
-
-  }
-
-
-  function destroyModal(){
-
-    $('#exampleModalCenter').modal('hide');
-
     $("#exampleModalCenter").on("hidden.bs.modal", function(){
       $(".modal-body").html("");
       location.reload();
-    });
-  }
+    }); }
 
   function submitData() {
     var propertyName = document.getElementById("propertyName").value;
@@ -1404,98 +1336,10 @@
 
         },
         error:function (error) {
-
-          let json = JSON.stringify(error.responseText);
-          let errorMessage = JSON.parse(json);
-
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: errorMessage,
-          })
-
-        },
-        contentType: "application/json",
-        dataType: 'json'
-      });
-
-    }else {
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Some fields have not yet been filled.',
-      })
-    }
-
-
-
-  }
-
-  function updateData() {
-    var propertyName = document.getElementById("propertyName").value;
-    var propertyLocation = document.getElementById("propertyLocation").value;
-    var moreDetails = document.getElementById("moreDetails").value;
-    var landLordDetails = document.getElementById("landLordDetails").value;
-    var incrementalPerc = document.getElementById("incrementalPerc").value;
-    var depositAmount = document.getElementById("depositAmount").value;
-    var tenancyPeriod = document.getElementById("tenancyPeriod").value;
-    var rentAmount = document.getElementById("rentAmount").value;
-    var atLeastOneIsChecked = $('input[name="chk[]"]:checked').length > 0;
-
-    var dropdownMenuButton = $('#combo :selected').text();
-    var occupationDate = document.getElementById("occupationDate").value;
-
-    if (
-            propertyName && propertyLocation && moreDetails &&
-            landLordDetails && incrementalPerc && depositAmount &&
-            tenancyPeriod && rentAmount && dropdownMenuButton
-    ){
-
-      // convert to JSON
-      var dataJson = {
-        "propertyName":propertyName,
-        "propertyLocation":propertyLocation,
-        "propertyDetails":moreDetails,
-        "propertyLandlordDetails":landLordDetails,
-        "paymentSchedule":dropdownMenuButton,
-        "propertyTenancyPeriod":tenancyPeriod,
-        "propertyRentAmount":rentAmount,
-        "incrementalPerc":incrementalPerc,
-        "propertyDepositAmount":depositAmount,
-        "isVat":atLeastOneIsChecked,
-        "propertyOccupancyDate":occupationDate
-      };
-
-      let propertyId = window.localStorage.getItem('propertyId');
-
-
-      var postData = JSON.stringify(dataJson);
-      //
-      console.log(postData)
-
-      // post data
-      $.ajax({
-        type: 'PUT',
-        url: '/api/v1/properties/update_property/'+propertyId,
-        data: postData, // or JSON.stringify ({name: 'jonas'}),
-        success: function(result) {
-          swal(
-                  'Successful Save',
-                  'Property has been updated successfully.',
-                  'success'
-          )
-
-        },
-        error:function (error) {
-
-          let json = JSON.stringify(error.responseText);
-          let errorMessage = JSON.parse(json);
-
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: errorMessage,
+            text: 'Some fields have not yet been filled.',
           })
 
         },
@@ -1520,7 +1364,6 @@
     var referenceNo = document.getElementById("referenceNo").value;
     var paidAmount = document.getElementById("paidAmount").value;
     var receiptDate = document.getElementById("receiptDate").value;
-    var receiptDetails = document.getElementById("receiptDetails").value;
     var propertySelectName = $('#propertySelectName :selected').text();
 
     if (referenceNo && paidAmount && receiptDate){
@@ -1530,7 +1373,6 @@
         "receiptReference":referenceNo,
         "amountPaid":paidAmount,
         "datePaid":receiptDate,
-        "receiptDetails":receiptDetails,
         "propertyName":propertySelectName,
       };
 
@@ -1547,10 +1389,9 @@
         success: function(result) {
           swal(
                   'Successful Save',
-                  'The receipt has been saved successfully.',
+                  'The expense has been saved successfully.',
                   'success'
           )
-
 
         },
         error:function (error) {
@@ -1796,50 +1637,13 @@
 
   }
 
-  function addProps(){
-    document.getElementById("addBtn").style.display = "block";
-    document.getElementById("updateBtn").style.display = "none";
-  }
-
-  function updateProps(){
-    document.getElementById("addBtn").style.display = "none";
-    document.getElementById("updateBtn").style.display = "block";
-  }
-
-  function deleteProperty(id){
-    $.ajax({
-
-      type: 'DELETE',
-      url: "/api/v1/property/delete-property/" + id,
-      success: function(response) {
-        swal(
-                'Successful Delete',
-                'The property has been deleted alongside its expenses and receipts. Please wait as the page refreshes.',
-                'success'
-        )
-        refreshPage();
-
-      }, error: function (error) {
-        alert('error: ' + error);
-      }
-
-    })
-
-
-  }
-
-  function refreshPage(){
-    location.reload();
-  }
-
-
-
 </script>
 
 
-<script th:src="@{/assets/js/core/bootstrap.min.js }"></script>
+
 <script th:src="@{/assets/js/core/jquery.min.js }"></script>
 <script th:src="@{/assets/js/core/popper.min.js }"></script>
+<script th:src="@{/assets/js/core/bootstrap.min.js }"></script>
 <script th:src="@{/assets/js/plugins/perfect-scrollbar.jquery.min.js }"></script>
 <script th:src="@{/assets/js/plugins/chartjs.min.js }"></script>
 <script th:src="@{/assets/js/plugins/bootstrap-notify.js }"></script>
@@ -1847,13 +1651,11 @@
 <script th:src="@{/assets/css/demo.js }"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE "></script>
 
-
-
 <script>
   $(document).ready(function() {
     // Javascript method's body can be found in assets/js/demos.js
     demo.initDashboardPageCharts();
-    $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false});
+
   });
 </script>
 </body>

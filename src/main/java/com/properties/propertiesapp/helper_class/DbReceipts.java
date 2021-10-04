@@ -7,15 +7,17 @@ public class DbReceipts {
     private String propertyName;
     private double amountPaid;
     private String receiptReference;
+    private String receiptDetails;
     private Date datePaid;
 
     public DbReceipts() {
     }
 
-    public DbReceipts(String propertyName, double amountPaid, String receiptReference, Date datePaid) {
+    public DbReceipts(String propertyName, double amountPaid, String receiptReference, String receiptDetails, Date datePaid) {
         this.propertyName = propertyName;
         this.amountPaid = amountPaid;
         this.receiptReference = receiptReference;
+        this.receiptDetails = receiptDetails;
         this.datePaid = datePaid;
     }
 
@@ -41,6 +43,14 @@ public class DbReceipts {
 
     public void setReceiptReference(String receiptReference) {
         this.receiptReference = receiptReference;
+    }
+
+    public String getReceiptDetails() {
+        return receiptDetails;
+    }
+
+    public void setReceiptDetails(String receiptDetails) {
+        this.receiptDetails = receiptDetails;
     }
 
     public Date getDatePaid() {

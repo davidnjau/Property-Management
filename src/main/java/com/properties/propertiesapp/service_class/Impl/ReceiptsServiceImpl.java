@@ -124,9 +124,10 @@ public class ReceiptsServiceImpl implements ReceiptsService {
         Double amountPaid = receipt.getAmountPaid();
         String referenceNumber = receipt.getReceiptReference();
         Date datePaid = receipt.getDatePaid();
+        String receiptDetails = receipt.getReceiptDetails();
 
         Receipts receipts = new Receipts(
-          propertyId,amountPaid, referenceNumber, rentAmount, datePaid
+          propertyId,amountPaid,receiptDetails, referenceNumber, rentAmount, datePaid
         );
         Receipts addedReceipts = addReceipt(receipts);
         if (addedReceipts != null){
