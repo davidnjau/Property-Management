@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Manager</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/animate/animate.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/css-hamburgers/hamburgers.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/animsition/css/animsition.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/select2/select2.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/daterangepicker/daterangepicker.css}" >
+    <link rel="stylesheet" th:href="@{/assets/css/util.css}" >
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" >
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'/>
+
+
+</head>
+<body class="bg-theme bg-theme1">
+
+<!-- Start wrapper-->
+<div id="wrapper">
+
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('../assets/img/bg-01.jpg');">
+            <div class="wrap-login100 p-t-30 p-b-50">
+				<span class="login100-form-title p-b-41">
+					Account Registration
+				</span>
+                <div class="login100-form validate-form p-b-33 p-t-5">
+
+                    <div style="padding: 15px">
+
+                        <div class="row">
+
+                            <div class="form-group col-6">
+                                <label for="firstName" class="sr-only">First Name</label>
+                                <div class="position-relative has-icon-right">
+                                    <input type="text" id="firstName" class="form-control input-shadow" placeholder="Enter Firstname">
+                                    <div class="form-control-position">
+                                        <i class="icon-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label for="lastName" class="sr-only">Last Name</label>
+                                <div class="position-relative has-icon-right">
+                                    <input type="text" id="lastName" class="form-control input-shadow" placeholder="Enter Lastname">
+                                    <div class="form-control-position">
+                                        <i class="icon-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="phoneNumber" class="sr-only">Username</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="tel" id="phoneNumber" class="form-control input-shadow" placeholder="Enter Phone Number">
+                                <div class="form-control-position">
+                                    <i class="icon-phone-sign"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="sr-only">Username</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="text" id="username" class="form-control input-shadow" placeholder="Enter Username">
+                                <div class="form-control-position">
+                                    <i class="icon-user"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailAddress" class="sr-only">Email Address</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="email" id="emailAddress" class="form-control input-shadow" placeholder="Email Address">
+                                <div class="form-control-position">
+                                    <i class="icon-envelope"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="sr-only">Password</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="password" id="password" class="form-control input-shadow" placeholder="Enter Password">
+                                <div class="form-control-position">
+                                    <i class="icon-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="password" id="confirmPassword" class="form-control input-shadow" placeholder="Confirm Password">
+                                <div class="form-control-position">
+                                    <i class="icon-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-login100-form-btn m-t-32">
+                            <button class="login100-form-btn" onclick="registerUser()">
+                                Register
+                            </button>
+
+                            <div class="text-center py-3">
+                                <p class="text-warning mb-0">Already have an account? <a href="/login"> Sign In here</a></p>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function registerUser(){
+
+        let regFirstName = document.getElementById("firstName").value;
+        let regLastName = document.getElementById("lastName").value;
+        let regUsername = document.getElementById("username").value;
+        let regPhoneNumber = document.getElementById("phoneNumber").value;
+        let regEmailAddress = document.getElementById("emailAddress").value;
+        let regPassword = document.getElementById("password").value;
+        let regPassword1 = document.getElementById("confirmPassword").value;
+
+        if (regFirstName && regLastName && regUsername && regPhoneNumber
+            && regEmailAddress && regPassword && regPassword1){
+
+            if (regPassword === regPassword1){
+
+                let dataJson = {
+                    "firstName": regFirstName,
+                    "emailAddress": regEmailAddress,
+                    "lastName": regLastName,
+                    "username": regUsername,
+                    "password": regPassword,
+                    "phoneNumber": regPhoneNumber
+                };
+                let postData = JSON.stringify(dataJson);
+
+                console.log("=== "+ postData)
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/v1/auth/registration",
+                    data: postData,
+                    success: function(response) {
+                         swal(
+                            'Successful Login in',
+                            'You have been registered successfully. Login to continue.',
+                            'success'
+                        )
+                        window.location.href = "/login";
+
+
+                    }, error: function (error) {
+                        // alert('error: ' + error);
+
+                        let json = $.parseJSON(error.responseText);
+                        let details = json.error
+
+                        swal({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: details,
+                        })
+                    },
+                    contentType: "application/json",
+                    dataType: 'json'
+
+                })
+
+            }else {
+                // alert('error: ' + " Password dont match.");
+
+                swal({
+                    title: "error",
+                    text: "Make sure your password match.",
+                    icon: "error",
+                });
+
+            }
+
+
+
+
+        }else {
+            // alert('error: ' + "Fill all fields.");
+
+            swal({
+                title: "error",
+                text: "Make sure all the fields are filled.",
+                icon: "error",
+            });
+
+        }
+
+    }
+
+
+</script>
+
+
+</body>
+</html>

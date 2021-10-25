@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Manager</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/animate/animate.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/css-hamburgers/hamburgers.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/animsition/css/animsition.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/select2/select2.min.css}" >
+    <link rel="stylesheet" th:href="@{/assets/vendor/daterangepicker/daterangepicker.css}" >
+    <link rel="stylesheet" th:href="@{/assets/css/util.css}" >
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}" >
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'/>
+
+
+</head>
+<body class="bg-theme bg-theme1">
+
+<!-- Start wrapper-->
+<div id="wrapper">
+
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('../assets/img/bg-01.jpg');">
+            <div class="wrap-login100 p-t-30 p-b-50">
+				<span class="login100-form-title p-b-41">
+					Account Login
+				</span>
+                <div class="login100-form validate-form p-b-33 p-t-5">
+
+                    <div class="wrap-input100 validate-input" data-validate = "Enter username">
+                        <input class="input100" type="text" id="emailAddress" name="emailAddress" placeholder="Email Address">
+                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        <input class="input100" type="password" id="password" name="pass" placeholder="Password">
+                        <span class="focus-input100" data-placeholder="&#xe80f;"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn m-t-32">
+                        <button class="login100-form-btn" onclick="loginUser()">
+                            Login
+                        </button>
+
+                        <div class="text-center py-3">
+                            <p class="text-warning mb-0">Do not have an account? <a href="/register"> Sign Up here</a></p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function loginUser(){
+
+        let emailAddress = document.getElementById("emailAddress").value;
+        let password = document.getElementById("password").value;
+        console.log("--- " + password)
+
+        if (emailAddress && password){
+
+            let dataJson = {
+                "username":emailAddress,
+                "password":password,
+            };
+            let postData = JSON.stringify(dataJson);
+
+            console.log("--- " + postData);
+
+            $.ajax({
+                type: 'POST',
+                url: "/api/v1/auth/login",
+                data: postData,
+                success: function(response) {
+
+                    swal(
+                        'Successful Login in',
+                        'You have been logged in successfully.',
+                        'success'
+                    )
+
+                    var accessToken = response.accessToken
+                    var firstName = response.firstName
+                    var lastName = response.lastName
+                    var phoneNumber = response.phoneNumber
+                    var userId = response.userId
+                    var emailAddress = response.emailAddress
+                    let roles = response.roles
+
+                    window.localStorage.setItem('accessToken', accessToken);
+                    window.localStorage.setItem('firstName', firstName);
+                    window.localStorage.setItem('lastName', lastName);
+                    window.localStorage.setItem('phoneNumber', phoneNumber);
+                    window.localStorage.setItem('userId', userId);
+                    window.localStorage.setItem('emailAddress', emailAddress);
+
+                    if(roles.indexOf("ROLE_ADMIN") !== -1){
+                        window.location.href = "/home";
+                    }
+
+                }, error: function (error) {
+
+                    var json = $.parseJSON(error.responseText);
+                    var details = json.details
+
+                    swal("Oops!", details, "error");
+
+                },
+                contentType: "application/json",
+                dataType: 'json'
+
+            })
+
+
+        }else {
+            // alert('error: ' + "error");
+
+            swal("Oops!", "Check on your email address and password.", "error");
+
+        }
+
+    }
+
+
+</script>
+
+
+</body>
+</html>
