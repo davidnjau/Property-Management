@@ -11,10 +11,623 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/now-ui-dashboard.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/dashboard.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/navbar.css}" />
 
 </head>
 
 <body>
+
+
+<!-- The Modal -->
+<div class="modal" id="addPaymentReceipts" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Receipt Information</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" name="_token" value="">
+
+                    <div class="form-group">
+                        <div>
+                            <input class="form-control text_area_details" type="number" placeholder="Amount Paid" id="paidAmount" style="height: 30px" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <textarea class="form-control" placeholder="Receipt Reference No" id="referenceNo" rows="1" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <textarea class="form-control" placeholder="Receipt Details" id="receiptDetails" rows="1" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select the property: </label>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+
+
+                            <select  id="propertySelectName">
+                                <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+                            </select>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select receipt date: </label>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="btn btn-secondary" type="date" placeholder="ReceiptDate" id="receiptDate"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-success" onclick="submitReceiptData()" data-dismiss="modal">
+                                    Add Receipt Info
+                                </button>
+                            </div>
+                            <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Utilities deposit-->
+<div class="modal" id="addUtilitiesExpenses" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add any incurred utilities expenses</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" name="_token" value="">
+
+                    <div class="row mt-3">
+
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select the property: </label>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+
+
+                            <select  id="propertyNames">
+                                <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+                            </select>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="text" placeholder="Utility Expense Name" id="utilityExpenseName" style="height: 70px">
+                            </div>
+                        </div>
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="number" placeholder="Deposit Amount" id="utilityDepositAmount"  style="height: 70px">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select Payment Date: </label>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="btn btn-secondary" type="date" placeholder="expenseDate" id="expenseDate"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <div>
+                                <button class="btn btn-success" onclick="submitUtilityExpense()" data-dismiss="modal">
+                                    Save
+                                </button>
+                            </div>
+                            <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Notify-->
+<div class="modal" id="sendNotifications" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Remind Someone of Something</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" name="_token" value="">
+
+                    <div class="row">
+                        <div class="dropdown col-md-12">
+                            <div>
+                                <input class="form-control text_area_details" type="text" placeholder="Enter Email Address" id="emailAddress" style="height: 70px">
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="dropdown col-md-6">
+                                <div>
+                                    <label> In regards to which property: </label>
+                                </div>
+                            </div>
+
+                            <div class="dropdown col-md-6">
+                                <select  id="propertyInQuestion">
+                                    <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="dropdown col-md-12">
+                            <div>
+                                <input class="form-control text_area_details" type="text" placeholder="Enter Subject" id="emailSubject" style="height: 70px">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="dropdown col-md-12">
+                            <div>
+                                <input class="form-control text_area_details" type="text" placeholder="Enter Content" id="emailContent" style="height: 70px">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <div>
+                                <button class="btn btn-success" onclick="sendNotification()" data-dismiss="modal">
+                                    Save
+                                </button>
+                            </div>
+                            <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Configurations-->
+<div class="modal" id="addConfigurations" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Set your configurations here</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" name="_token" value="">
+
+                    <div class="row">
+                        <div class="dropdown col-md-12">
+                            <div>
+                                <input class="form-control text_area_details" type="text" placeholder="Enter Admin Email Address" id="adminAddress" style="height: 70px">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <div>
+                                <button class="btn btn-success" onclick="submitConfigurations()" data-dismiss="modal">
+                                    Save
+                                </button>
+                            </div>
+                            <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!--Utilities deposit-->
+<div class="modal" id="addExtraExpenses" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add any incurred extra expenses</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" name="_token" value="">
+
+                    <div class="row mt-3">
+
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select the property: </label>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+
+                            <select  id="nameProperty">
+                                <option th:each="propertyName : ${propertyNameList}" th:value="${propertyName}" th:text="${propertyName}"></option>
+                            </select>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="text" placeholder="Enter Expense Name" id="expenseName" style="height: 70px">
+                            </div>
+                        </div>
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="number" placeholder="Amount used" id="expenseDepositAmount"  style="height: 70px">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select Payment Date: </label>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="btn btn-secondary" type="date" placeholder="expenseDate" id="paidExpenseDate"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <div>
+                                <button class="btn btn-success" onclick="submitExtraExpense()" data-dismiss="modal">
+                                    Save
+                                </button>
+                            </div>
+                            <!--                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Property Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <table class="table">
+
+
+
+                    <tbody>
+
+                    <tr>
+                        <td> Reference no</td>
+                        <td> Date Paid</td>
+                        <td> Amount</td>
+                    </tr>
+
+                    <tr th:each="receipts : ${receiptsList}">
+
+                        <td th:text="${receipts.getReceiptReference()}">Receipt no</td>
+                        <td th:text="${receipts.getDatePaid()}">DatePaid</td>
+                        <td th:text="${receipts.getRentAmount()}">Amount</td>
+
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myAddPropertyModal" data-backdrop="static" data-keyboard="false">
+
+    <!-- Modal Header -->
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Property Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div >
+                    <input type="hidden" name="_token" value="">
+                    <div class="form-group">
+                        <div>
+                            <textarea class="form-control" placeholder="Property name" id="propertyName" rows="1" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <textarea class="form-control" placeholder="Property Location" id="propertyLocation" rows="1" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <textarea class="form-control" placeholder="Property More details" id="moreDetails" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <textarea class="form-control" placeholder="Landlord Details" id="landLordDetails" rows="2" required></textarea>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="chk[]" id="checkboxVat" value="Yes"> Does the Property have VAT?</label>
+                    </div>
+
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="number" placeholder="Incremental % p.a." id="incrementalPerc" style="height: 30px">
+                            </div>
+                        </div>
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="number" placeholder="Deposit Amount" id="depositAmount"  style="height: 30px">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="number" placeholder="Rent Amount" id="rentAmount" style="height: 30px">
+                            </div>
+                        </div>
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="form-control text_area_details" type="number" placeholder="Tenancy Period (yrs)" id="tenancyPeriod"  style="height: 30px">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-3">
+
+                        <div class="dropdown col-md-6">
+                            <div>
+
+                                <label> Select the periods of payments: </label>
+
+                            </div>
+                        </div>
+
+                        <div id="selectedCombo" class="dropdown col-md-6">
+
+                            <select id="combo">
+                                <option value="monthly">Monthly</option>
+                                <option value="quartely">Quartely</option>
+                                <option value="halfYearly">Half Yearly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <label> Select the date of occupancy: </label>
+                            </div>
+                        </div>
+
+                        <div class="dropdown col-md-6">
+                            <div>
+                                <input class="btn btn-secondary" type="date" placeholder="Date of occupation" id="occupationDate"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <div>
+                            <button id="addBtn" class="btn btn-success" onclick="submitData()" data-dismiss="modal">
+                                Add Property
+                            </button>
+                            <button id="updateBtn" class="btn btn-success" onclick="updateData()" data-dismiss="modal">
+                                Update Property
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+
+    <!-- /.modal-dialog -->
+
+
+</div>
+
+<div id="exampleModalCenter" data-toggle="modal" data-backdrop="static" data-keyboard="false"  role="dialog" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Details</h4>
+                    <!--          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                </div>
+
+                <div class="modal-body">
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" th:onclick="destroyModal()"  data-dismiss="modal" value="Cancel" id="disposeBtn">
+                    <!--          <input type="submit" class="btn btn-info" value="Save">-->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="topnav">
+
+    <div class="topnav-right">
+<!--        <a href="#search">Search</a>-->
+        <a href="/logout">Logout</a>
+<!--        <div class="dropdown">-->
+<!--            <button class="dropbtn">Dropdown-->
+<!--                <i class="fa fa-caret-down"></i>-->
+<!--            </button>-->
+<!--            <div class="dropdown-content">-->
+<!--                <a href="#">Link 1</a>-->
+<!--                <a href="#">Link 2</a>-->
+<!--                <a href="#">Link 3</a>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
+
 
 <div class="sidebar" data-color="blue">
 
@@ -73,6 +686,7 @@
         </ul>
     </div>
 </div>
+
 
 </body>
 
